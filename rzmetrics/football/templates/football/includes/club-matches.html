@@ -1,0 +1,87 @@
+{% load static %}
+
+<div id="club-matches" class="tabs-big-container border-container">
+    <div class="club-matches-dropdown">
+        <button class="club-matches-season-selector">
+            <span>{{ season.name }}</span>
+
+            <svg viewBox="0 0 24 24" class="club-matches-choice-icon">
+                <path d="M12 22c-5.52-.006-9.994-4.48-10-10v-.2C2.11 6.305 6.635 1.928 12.13 2c5.497.074 9.904 4.569 9.868 10.065C21.962 17.562 17.497 22 12 22Zm0-18a8 8 0 1 0 8 8a8.009 8.009 0 0 0-8-8Zm-1.45 13l-1.414-1.415l3.535-3.535l-3.535-3.535L10.55 7.1l4.95 4.95L10.551 17h-.001Z"/>
+            </svg>
+        </button>
+
+        <div class="club-matches-dropdown-content">
+            {% for season in seasons %}
+                <span class="club-matches-season-item"
+                      data-season="{{ season.name }}">
+                    {{ season.name }}
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="club-matches-list">
+        {% regroup matches by match_datetime.date as matches_by_date %}
+
+        {% for date_group in matches_by_date %}
+            <div class="club-matches-date" data-match-date="{{ date_group.grouper|date:'Y-m-d' }}">
+                {{ date_group.grouper|date:"d.m.Y" }}
+            </div>
+
+            {% for match in date_group.list %}
+                <div class="games-list-element club-match-element">
+                    <div class="match club-match">
+                        <div class="club-match-time"
+                             data-match-id="{{ match.id }}"
+                             data-match-status="{{ match.status }}"
+                             {% if match.match_datetime|date:"Y-m-d" == today|date:"Y-m-d" and match.status < 6 %}
+                             data-live-candidate="1"
+                             {% endif %}>
+                            <h3 data-kickoff="{{ match.match_datetime|date:'H:i' }}"
+                                class="{% if match.status == 3 %}club-match-time__label--accent{% elif match.status >= 2 and match.status <= 5 and match.status != 3 %}club-match-time__label--accent{% endif %}">
+                                {% if match.status == 3 %}paused
+                                {% elif match.status >= 2 and match.status <= 5 %}live
+                                {% else %}{{ match.match_datetime|date:"H:i" }}
+                                {% endif %}
+                            </h3>
+                        </div>
+
+                        <div class="club-match-info">
+                            <span class="club-match-competition">
+                                {{ match.competition_season.competition.name_ru }}
+                            </span>
+                            <div class="team-info {% if match.home_team.id == club.id %}club-current-team{% endif %}">
+                                <img class="team-info-logo"
+                                     src="{% static 'football/'|add:match.home_team.logo_url %}"
+                                     alt="{{ match.home_team.name }}">
+                                <h3>{{ match.home_team.name_ru|default:match.home_team.name }}</h3>
+                            </div>
+
+                            <div class="team-info {% if match.away_team.id == club.id %}club-current-team{% endif %}">
+                                <img class="team-info-logo"
+                                     src="{% static 'football/'|add:match.away_team.logo_url %}"
+                                     alt="{{ match.away_team.name }}">
+                                <h3>{{ match.away_team.name_ru|default:match.away_team.name }}</h3>
+                            </div>
+                        </div>
+
+                        <div class="club-match-score"
+                             data-match-id="{{ match.id }}"
+                             data-match-status="{{ match.status }}"
+                             {% if match.match_datetime|date:"Y-m-d" == today|date:"Y-m-d" and match.status < 6 %}
+                             data-live-candidate="1"
+                             {% endif %}>
+                            {% if match.status >= 2 and match.status <= 6 %}
+                                <span>{{ match.home_score }}</span>
+                                <span>{{ match.away_score }}</span>
+                            {% else %}
+                                <span>-</span>
+                                <span>-</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>

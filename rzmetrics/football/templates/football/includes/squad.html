@@ -1,0 +1,274 @@
+{% load static %}
+<div class="tabs-big-container border-container">
+    <div class="switcher">
+        <ul class="switcher-list">
+            <li class="switcher-element active-switcher">
+                <img src='/static/football/images/manchester_city.png'>
+            </li>
+            <li class="switcher-element">
+                <img src='/static/football/images/manchester_city.png'>
+            </li>
+        </ul>
+    </div>
+    <div class="team-squad-container">
+        <div id="home-team-squad-container">
+            <div class="team-header">
+                <div>
+                    <span class="team-name">{{ match.home_team.short_name }}</span>
+                    <span class="team-badge">{{ match.home_team.tla }}</span>
+                </div>
+                <div class="formation-note">
+                    <span class="formation-badge">{{ home_stats.formation }}</span>
+                    <span>стартовый состав</span>
+                </div>
+            </div>
+            <div class="squad"> 
+                <div class="line-group goalkeeper-line">
+                    <div class="line-label">
+                        <span>Вратарь</span>
+                    </div>
+                    <div class="players-list">
+                        <div class="player-card">
+                            <div class="player-photo">
+                                {% if home_gk.player.photo_url %}
+                                <img src="{% static 'football/'|add:home_gk.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-number">{{home_gk.shirt_number}}</div>
+                                <div class="player-name">{{home_gk.player.name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Защита -->
+                <div class="line-group">
+                    <div class="line-label">
+                        <span>Защита</span>
+                    </div>
+                    <div class="players-list">
+                    {% for player in home_defenders %}
+                        <div class="player-card">
+                            <div class="player-photo">
+                                {% if player.player.photo_url %}
+                                <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-number">{{player.shirt_number}}</div>
+                                <div class="player-name">{{player.player.name}}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Полузащита -->
+                <div class="line-group">
+                    <div class="line-label">
+                        <span>Полузащита</span>
+                    </div>
+                    <div class="players-list">
+                    {% for player in home_midfielders %}
+                    <div class="player-card">
+                        <div class="player-photo">
+                            {% if player.player.photo_url %}
+                            <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                            {% else %}
+                            <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                            {% endif %}
+                        </div>
+                        <div class="player-info">
+                            <div class="player-number">{{player.shirt_number}}</div>
+                            <div class="player-name">{{player.player.name}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Нападение -->
+                <div class="line-group">
+                    <div class="line-label">
+                        <span>Нападение</span>
+                    </div>
+                    <div class="players-list">
+                    {% for player in home_forwards %}
+                        <div class="player-card">
+                            <div class="player-photo">
+                                {% if player.player.photo_url %}
+                                <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-number">{{player.shirt_number}}</div>
+                                <div class="player-name">{{player.player.name}}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="subs">
+                <div class="line-label">
+                    <span>Запасные</span>
+                </div>
+                <ul class="subs-list">
+                    {% for sub in home_subs %}
+                    <li class="subs-list-element">
+                        <div class="subs-photo">
+                                {% if sub.player.photo_url %}
+                                <img src="{% static 'football/'|add:sub.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                        <div class="subs-player-name">{{ sub.shirt_number }} {{ sub.player.name }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div id="away-team-squad-container">
+            <div class="team-header">
+                <div>
+                    <span class="team-name">{{ match.away_team.short_name }}</span>
+                    <span class="team-badge">{{ match.away_team.tla }}</span>
+                </div>
+                <div class="formation-note">
+                    <span class="formation-badge">{{ away_stats.formation }}</span>
+                    <span>стартовый состав</span>
+                </div>
+            </div>
+            <div class="squad">
+                <div class="line-group goalkeeper-line">
+                    <div class="line-label">
+                        <span>Вратарь</span>
+                    </div>
+                    <div class="players-list">
+                        <div class="player-card">
+                            <div class="player-photo">
+                                {% if away_gk.player.photo_url %}
+                                <img src="{% static 'football/'|add:away_gk.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-number">{{away_gk.shirt_number}}</div>
+                                <div class="player-name">{{away_gk.player.name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Защита -->
+                <div class="line-group">
+                    <div class="line-label">
+                        <span>Защита</span>
+                    </div>
+                    <div class="players-list">
+                    {% for player in away_defenders %}
+                        <div class="player-card">
+                            <div class="player-photo">
+                                {% if player.player.photo_url %}
+                                <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-number">{{player.shirt_number}}</div>
+                                <div class="player-name">{{player.player.name}}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Полузащита -->
+                <div class="line-group">
+                    <div class="line-label">
+                        <span>Полузащита</span>
+                    </div>
+                    <div class="players-list">
+                    {% for player in away_midfielders %}
+                    <div class="player-card">
+                        <div class="player-photo">
+                            {% if player.player.photo_url %}
+                            <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                            {% else %}
+                            <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                            {% endif %}
+                        </div>
+                        <div class="player-info">
+                            <div class="player-number">{{player.shirt_number}}</div>
+                            <div class="player-name">{{player.player.name}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Нападение -->
+                <div class="line-group">
+                    <div class="line-label">
+                        <span>Нападение</span>
+                    </div>
+                    <div class="players-list">
+                    {% for player in away_forwards %}
+                        <div class="player-card">
+                            <div class="player-photo">
+                                {% if player.player.photo_url %}
+                                <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-number">{{player.shirt_number}}</div>
+                                <div class="player-name">{{player.player.name}}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="manager">
+                <div class="player-photo">
+                    {% if player.player.photo_url %}
+                    <img src="{% static 'football/'|add:player.player.photo_url %}" alt="игрок">
+                    {% else %}
+                    <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                    {% endif %}
+                </div>
+            </div> {% endcomment %}
+            <div class="subs">
+                <div class="line-label">
+                    <span>Запасные</span>
+                </div>
+                <ul class="subs-list">
+                    {% for sub in away_subs %}
+                    <li class="subs-list-element">
+                        <div class="subs-photo">
+                                {% if sub.player.photo_url %}
+                                <img src="{% static 'football/'|add:sub.player.photo_url %}" alt="игрок">
+                                {% else %}
+                                <img src="{% static 'football/players_photos/NoPhoto.png' %}"  alt="No photo">
+                                {% endif %}
+                            </div>
+                        <div class="subs-player-name">{{ sub.shirt_number }} {{ sub.player.name }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

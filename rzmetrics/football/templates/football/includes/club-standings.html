@@ -1,0 +1,104 @@
+{% load static %}
+{% load split_filter %}
+{% load dict_filters %}
+
+<div id="top-5" class="tabs-big-container border-container">
+    <div class="club-standings-dropdown">
+        <button id="clubStandingsSeasonBtn" class="club-standings-selector">
+            <img
+                class="club-standings-league-logo"
+                src="{% static 'football/'|add:league.logo_url %}"
+                alt="{{ league.name }}"
+            >
+
+            <span id="clubStandingsSelectedSeason">
+                {{ competition_season.season.name }}
+            </span>
+
+            <svg viewBox="0 0 24 24" class="club-standings-choice-icon">
+                <path d="M12 22c-5.52-.006-9.994-4.48-10-10v-.2C2.11 6.305 6.635 1.928 12.13 2c5.497.074 9.904 4.569 9.868 10.065C21.962 17.562 17.497 22 12 22Zm0-18a8 8 0 1 0 8 8a8.009 8.009 0 0 0-8-8Zm-1.45 13l-1.414-1.415l3.535-3.535l-3.535-3.535L10.55 7.1l4.95 4.95L10.551 17h-.001Z"/>
+            </svg>
+        </button>
+
+        <div class="club-standings-dropdown-content">
+            {% for season in seasons %}
+                <span class="club-standings-season-item" data-season="{{ season.season.name }}" data-page-type="standings">
+                    <img class="club-standings-season-logo"
+                         src="{% static 'football/'|add:league.logo_url %}"
+                         alt="{{ league.name }}"
+                         >
+                    {{ season.season.name }}
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="ligue-table">
+        <span class="ligue-table-header-item">№</span>
+        <span class="ligue-table-header-item">КОМАНДА</span>
+        <span class="ligue-table-header-item">И</span>
+        <span class="ligue-table-header-item">В</span>
+        <span class="ligue-table-header-item">Н</span>
+        <span class="ligue-table-header-item">П</span>
+        <span class="ligue-table-header-item info-to-hide">+/-</span>
+        <span class="ligue-table-header-item">ОЧК</span>
+        <span class="ligue-table-header-item games-header-item">МАТЧИ</span>
+        <span class="ligue-table-header-item info-to-hide">СЛЕД. МАТЧ</span>
+
+        {% for standing in standings %}
+        <span class="{% if standing.team.id == club.id %}club-standings-current-team{% endif %}">{{ standing.position }}</span>
+        {% if standing.team.id == club.id %}
+            <div class="ligue-table-team-info club-standings-current-team-row">
+                <img src="{% static 'football/'|add:standing.team.logo_url %}">
+                <h3>{{ standing.team.short_name }}</h3>
+            </div>
+        {% else %}
+            <a href="{% url 'football:club' standing.team.slug %}"
+               class="ligue-table-team-info club-standings-team-link">
+                <img src="{% static 'football/'|add:standing.team.logo_url %}">
+                <h3>{{ standing.team.short_name }}</h3>
+            </a>
+        {% endif %}
+        <span>{{ standing.played }}</span>
+        <span>{{ standing.wins }}</span>
+        <span>{{ standing.draws }}</span>
+        <span>{{ standing.losses }}</span>
+        <span class="info-to-hide">{{ standing.goals_for }}/{{ standing.goals_against }}</span>
+        <span>{{ standing.points }}</span>
+        <ul class="ligue-table-games-list">
+            {%  with form=standing.form|split_filter:"," %}
+                {% for result in form %}
+                <li>
+                    <svg class="res-circle
+                                {% if result == 'W'%} win-circle
+                                {% elif result == 'D'%} draw-circle
+                                {% else %} loose-circle
+                                {% endif %}
+                                ">
+                        <circle></circle>
+                    </svg>
+                </li>
+                {% endfor %}
+            {% endwith %}
+        </ul>
+        {% with match=next_matches|get_item:standing.team_id %}
+            {% if competition_season.season.is_current and match %}
+                {% if match.home_team.id == standing.team.id %}
+                    <div class="club-standings-next-match info-to-hide">
+                        <img src="{% static 'football/'|add:match.away_team.logo_url %}">
+                    </div>
+                {% else %}
+                    <div class="club-standings-next-match info-to-hide">
+                        <img src="{% static 'football/'|add:match.home_team.logo_url %}">
+                    </div>
+                {% endif %}
+            {% else %}
+                <span class="info-to-hide">—</span>
+            {% endif %}
+        {% endwith %}
+        {% endfor %}
+
+    </div>
+</div>
+

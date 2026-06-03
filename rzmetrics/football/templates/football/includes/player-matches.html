@@ -1,0 +1,119 @@
+{% load static %}
+
+<div id="player-matches" class="tabs-big-container border-container">
+    <div class="player-matches-header">
+        <div>
+            <h2>Матчи</h2>
+            <p>
+                {{ season.name }}
+            </p>
+        </div>
+
+        <div class="dropdown">
+            <button class="selector player-matches-season-selector">
+                <span id="PlayerMatchesSelectedSeason">{{ season.name }}</span>
+
+                <svg viewBox="0 0 24 24" class="choice-icon">
+                    <path d="M12 22c-5.52-.006-9.994-4.48-10-10v-.2C2.11 6.305 6.635 1.928 12.13 2c5.497.074 9.904 4.569 9.868 10.065C21.962 17.562 17.497 22 12 22Zm0-18a8 8 0 1 0 8 8a8.009 8.009 0 0 0-8-8Zm-1.45 13l-1.414-1.415l3.535-3.535l-3.535-3.535L10.55 7.1l4.95 4.95L10.551 17h-.001Z"/>
+                </svg>
+            </button>
+
+            <div class="dropdown-content">
+                {% for season in player_seasons %}
+                    <span class="season-item player-matches-season-item"
+                          data-season-title="{{ season.name }}">
+                        {{ season.name }}
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="player-matches-list">
+        {% regroup player_match_items by match.match_datetime.date as matches_by_date %}
+
+        {% for date_group in matches_by_date %}
+            <div class="player-matches-date" data-match-date="{{ date_group.grouper|date:'Y-m-d' }}">
+                {{ date_group.grouper|date:"d.m.Y" }}
+            </div>
+
+            {% for item in date_group.list %}
+                <div class="games-list-element player-match-element">
+                    <div class="match player-match">
+                        <div class="player-match-time">
+                            <h3>{{ item.match.match_datetime|date:"H:i" }}</h3>
+                        </div>
+
+                        <div class="player-match-info">
+                            <span class="player-match-competition">
+                                {{ item.match.competition_season.competition.name_ru }}
+                            </span>
+                            <div class="team-info {% if item.match.home_team.id == item.team.id %}player-current-team{% endif %}">
+                                <img class="team-info-logo"
+                                     src="{% static 'football/'|add:item.match.home_team.logo_url %}"
+                                     alt="{{ item.match.home_team.name }}">
+
+                                <h3>{{ item.match.home_team.name_ru|default:item.match.home_team.name }}</h3>
+                            </div>
+
+                            <div class="team-info {% if item.match.away_team.id == item.team.id %}player-current-team{% endif %}">
+                                <img class="team-info-logo"
+                                     src="{% static 'football/'|add:item.match.away_team.logo_url %}"
+                                     alt="{{ item.match.away_team.name }}">
+
+                                <h3>{{ item.match.away_team.name_ru|default:item.match.away_team.name }}</h3>
+                            </div>
+                        </div>
+
+                        <div class="player-match-score">
+                            {% if item.match.status == 6 %}
+                                <span>{{ item.match.home_score }}</span>
+                                <span>{{ item.match.away_score }}</span>
+                            {% else %}
+                                <span>-</span>
+                                <span>-</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="player-match-actions">
+                            {% if item.stat.goals > 0 %}
+                                <div class="player-match-action">
+                                    <img src="{% static 'football/images/ball.svg' %}" alt="Голы">
+                                    <span>x{{ item.stat.goals }}</span>
+                                </div>
+                            {% endif %}
+
+                            {% if item.stat.assists > 0 %}
+                                <div class="player-match-action">
+                                    <img src="{% static 'football/images/assist.svg' %}" alt="Ассисты">
+                                    <span>x{{ item.stat.assists }}</span>
+                                </div>
+                            {% endif %}
+
+                            {% for event in item.card_events %}
+                                {% if event.event_type == 'YELLOW_CARD' %}
+                                    <div class="player-match-action">
+                                        <img src="{% static 'football/images/yellow-card.svg' %}" alt="Жёлтая карточка">
+                                    </div>
+                                {% elif event.event_type == 'RED_CARD' %}
+                                    <div class="player-match-action">
+                                        <img src="{% static 'football/images/red-card.svg' %}" alt="Красная карточка">
+                                    </div>
+                                {% elif event.event_type == 'SECOND_YELLOW_CARD' %}
+                                    <div class="player-match-action">
+                                        <img src="{% static 'football/images/second-yellow-card.svg' %}" alt="Вторая жёлтая карточка">
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <div class="player-match-rating {{ item.rating_class }}">
+                            {{ item.rating_text }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>

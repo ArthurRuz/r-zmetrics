@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Профиль - {{user.username}}{% endblock %}
+
+{% block extra_css %}
+    <link type="text/css" href="{% static 'users/css/Registration.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'users/css/Profile.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'users/libs/flatpickr/flatpickr.min.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="profile-content">
+    <div class="profile-card">
+        <div class="profile-photo-and-nickname">
+            <div class="profile-photo-wrapper">
+                <img class="profile-photo"
+                     src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'users/images/user-default-photo.png' %}{% endif %}"
+                     alt="profile photo"
+                >
+
+                <button class="profile-right-button" type="button" id="uploadPhotoBtn">
+                    <img src="{% static 'users/images/edit.svg' %}"
+                         alt="Edit">
+                </button>
+
+                <button
+                    class="profile-delete-photo-button {% if not user.avatar %}profile-delete-photo-button-hidden{% endif %}"
+                    type="button"
+                    id="deletePhotoBtn"
+                >
+                    <img src="{% static 'users/images/delete.svg' %}"
+                         alt="Delete">
+                </button>
+            </div>
+            <div>
+                <h3 class="profile-nickname">{{user.username}}</h3>
+                <p class="profile-email">{{user.email}}</p>
+            </div>
+        </div>
+        <hr class="profile-divider">
+        <h1 class="profile-header">
+            ИЗБРАННЫЕ КОМАНДЫ
+        </h1>
+        <div class="chosen-section">
+            {% for team in favorite_teams %}
+                <a class="chosen-card" href="{% url 'football:club' team.slug %}">
+                    <img src="{% static 'football/'|add:team.logo_url %}"
+                         alt="{{team.name}}"
+                         class="profile-team-image">
+                    <p>{{team.name_ru}}</p>
+                </a>
+            {% empty %}
+                <p class="no-chosen">Нет избранных команд</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="profile-personal-data">
+        <h1 class="profile-header">
+            ПЕРСОНАЛЬНЫЕ ДАННЫЕ
+        </h1>
+        <hr class="profile-divider">
+        <form class="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% if field.is_hidden %}
+                    {{ field }}
+                {% else %}
+                    <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        {{ field.label_tag }}
+                        {% if field.name == 'date_birth' %}
+                            <div class="date-input-wrapper">
+                                {{ field }}
+
+                                <button class="date-picker-button" type="button" id="datePickerBtn">
+                                    <img src="{% static 'users/images/calendar.svg' %}" alt="Calendar">
+                                </button>
+                            </div>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <div class="help-text">{{ field.help_text }}</div>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="error-message">{{ field.errors|join:" " }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <button type="submit" class="filled-button continue-button reg-shadow">СОХРАНИТЬ</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+    const deletePhotoBtn = document.getElementById('deletePhotoBtn');
+    const avatarInput = document.getElementById('id_avatar');
+    const deleteAvatarInput = document.getElementById('id_delete_avatar');
+    const profilePhoto = document.querySelector('.profile-photo');
+
+    const defaultPhotoUrl = "{% static 'users/images/user-default-photo.png' %}";
+    const initialPhotoUrl = profilePhoto ? profilePhoto.src : defaultPhotoUrl;
+    const hasInitialAvatar = "{% if user.avatar %}true{% else %}false{% endif %}" === "true";
+
+    if (uploadPhotoBtn && avatarInput && profilePhoto) {
+        uploadPhotoBtn.addEventListener('click', () => {
+            avatarInput.click();
+        });
+
+        avatarInput.addEventListener('change', () => {
+            const file = avatarInput.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            if (deleteAvatarInput) {
+                deleteAvatarInput.value = '';
+            }
+
+            profilePhoto.src = URL.createObjectURL(file);
+
+            if (deletePhotoBtn) {
+                deletePhotoBtn.classList.remove('profile-delete-photo-button-hidden');
+            }
+        });
+    }
+
+    if (deletePhotoBtn && deleteAvatarInput && avatarInput && profilePhoto) {
+        deletePhotoBtn.addEventListener('click', () => {
+            const hasSelectedNewAvatar = avatarInput.files.length > 0;
+
+            if (hasSelectedNewAvatar) {
+                avatarInput.value = '';
+                deleteAvatarInput.value = '';
+
+                profilePhoto.src = hasInitialAvatar ? initialPhotoUrl : defaultPhotoUrl;
+
+                if (!hasInitialAvatar) {
+                    deletePhotoBtn.classList.add('profile-delete-photo-button-hidden');
+                }
+
+                return;
+            }
+
+            if (hasInitialAvatar) {
+                deleteAvatarInput.value = 'on';
+                profilePhoto.src = defaultPhotoUrl;
+                deletePhotoBtn.classList.add('profile-delete-photo-button-hidden');
+            }
+        });
+    }
+</script>
+
+<script src="{% static 'users/libs/flatpickr/flatpickr.min.js' %}"></script>
+<script src="{% static 'users/libs/flatpickr/ru.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dateInput = document.querySelector('.js-date-picker');
+        const datePickerBtn = document.getElementById('datePickerBtn');
+
+        if (!dateInput || typeof flatpickr === 'undefined') {
+            return;
+        }
+
+        const datePicker = flatpickr(dateInput, {
+            locale: flatpickr.l10ns.ru,
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'd.m.Y',
+            altInputClass: 'auth-input reg-shadow date-picker-visible-input',
+            allowInput: true,
+            minDate: '1900-01-01',
+            maxDate: 'today',
+            disableMobile: true,
+        });
+
+        if (datePickerBtn) {
+            datePickerBtn.addEventListener('click', () => {
+                datePicker.open();
+            });
+        }
+    });
+</script>
+{% endblock %}

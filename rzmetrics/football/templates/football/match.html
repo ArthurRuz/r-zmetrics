@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load split_filter %}
+
+{% block title %}Матч{% endblock %}
+{% block extra_css %}
+    <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Match.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<section class="match-section">
+    <div class="match-info">
+        <div class="incidents-container">
+            {% for goal in home_goals %}
+                <span>{{goal.player.name}} {{ goal.minute }}'</span>
+            {% endfor %}
+        </div>
+        <div class="match-team-container">
+            <img src="{% static 'football/'|add:match.home_team.logo_url %}" alt="awd">
+            <h3>{{ match.home_team.short_name }}</h3>
+        </div>
+        <div class="match-time">
+            <h4>{{match.home_score}} - {{match.away_score}}</h4>
+            <span>{{ match.match_datetime }}</span>
+        </div>
+        <div class="match-team-container">
+            <img src="{% static 'football/'|add:match.away_team.logo_url %}">
+            <h3>{{ match.away_team.short_name }}</h3>
+        </div>
+        <div class="incidents-container">
+            {% for goal in away_goals %}
+                <span>{{goal.player.name}} {{ goal.minute }}'</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container-nav">
+        <div class="container-nav-buttons">
+            <button class="is-current-but nav-button overview-button" data-tab="overview">Обзор</button>
+            <button class="nav-button table-button" data-tab="table">Таблица</button>
+            <button class="nav-button table-button" data-tab="stats">Статистика</button>
+            <button class="nav-button table-button" data-tab="squad">Составы</button>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+        <div id="overview" class="tab active">
+            
+        </div>
+
+        <div id="table" class="tab">
+
+        </div>
+
+        <div id="stats" class="tab">
+        </div>
+
+        <div id="squad" class="tab">
+        </div>
+
+    </div>
+</section>
+<script>
+    window.matchStats = {
+        home_stats: {
+            xg: {{ home_stats.xg|default:0 }},
+            xg_away: {{ away_stats.xg|default:0 }},
+            possession_percent: {{ home_stats.possession_percent|default:50 }},
+            shots_total: {{ home_stats.shots_total|default:0 }},
+            shots_total_away: {{ away_stats.shots_total|default:0 }},
+            shots_on_target: {{ home_stats.shots_on_target|default:0 }},
+            shots_on_target_away: {{ away_stats.shots_on_target|default:0 }},
+            corners: {{ home_stats.corners|default:0 }},
+            corners_away: {{ away_stats.corners|default:0 }},
+            fouls: {{ home_stats.fouls|default:0 }},
+            fouls_away: {{ away_stats.fouls|default:0 }},
+            passes_total: {{ home_stats.passes_total|default:0 }},
+            passes_total_away: {{ away_stats.passes_total|default:0 }},
+            passes_accurate: {{ home_stats.passes_accurate|default:0 }},
+            passes_accurate_away: {{ away_stats.passes_accurate|default:0 }},
+            yellow_cards: {{ home_stats.yellow_cards|default:0 }},
+            yellow_cards_away: {{ away_stats.yellow_cards|default:0 }},
+            red_cards: {{ home_stats.red_cards|default:0 }},
+            red_cards_away: {{ away_stats.red_cards|default:0 }},
+            offsides: {{ home_stats.offsides|default:0 }},
+            offsides_away: {{ away_stats.offsides|default:0 }}
+        }
+    };
+</script>
+
+<script>
+    function calcPercents(value1, value2){
+        const v1 = parseFloat(value1) || 0;
+        const v2 = parseFloat(value2) || 0;
+    
+        if (v1 + v2 === 0) return 50;
+        let total = v1 + v2;
+        let res = total > 0 ? (v1 / total) * 100 : 100;
+        return res;
+    }
+
+    function createBarGradient(bar, indicator){
+        bar.style.background = `linear-gradient(90deg, #0B1D35 0%, #0B1D35 ${indicator}%, #A1C4F6 ${indicator}%, #A1C4F6 100%)`;
+    }
+
+    // Функция для обновления баров из глобальных данных
+    function updateAllBars() {
+        const stats = window.matchStats.home_stats;
+        
+        // Обновляем круговой индикатор
+        const degrees = ((100 - stats.possession_percent) / 100) * 360;
+        const ring = document.querySelector('.ring');
+        if (ring) {
+            ring.style.backgroundImage = `conic-gradient(#A1C4F6 0deg, #A1C4F6 ${degrees}deg, #0B1D35 ${degrees}deg, #0B1D35 360deg)`;
+        }
+
+        // Обновляем все бары
+        const bars = [
+            { home: stats.xg, away: stats.xg_away, id: "barXG" },
+            { home: stats.shots_total, away: stats.shots_total_away, id: "barShotsTotal" },
+            { home: stats.shots_on_target, away: stats.shots_on_target_away, id: "barShotsOnTarget" },
+            { home: stats.corners, away: stats.corners_away, id: "barCorners" },
+            { home: stats.fouls, away: stats.fouls_away, id: "barFouls" },
+            { home: stats.passes_total, away: stats.passes_total_away, id: "barPassesTotal" },
+            { home: stats.passes_accurate, away: stats.passes_accurate_away, id: "barPassAccuracy" },
+            { home: stats.yellow_cards, away: stats.yellow_cards_away, id: "barYellowCards" },
+            { home: stats.red_cards, away: stats.red_cards_away, id: "barRedCards" },
+            { home: stats.offsides, away: stats.offsides_away, id: "barOffsides" },
+        ];
+
+        bars.forEach(bar => {
+            const percent = calcPercents(bar.home, bar.away);
+            const element = document.getElementById(bar.id);
+            if (element) createBarGradient(element, percent);
+        });
+    }
+
+</script>
+<script>
+    const matchId = '{{ match.id }}';
+</script>
+<script type="module" src="{% static 'football/js/match.js' %}"></script>
+{% endblock %}
+

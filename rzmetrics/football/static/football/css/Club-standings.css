@@ -1,0 +1,240 @@
+.club-standings-dropdown {
+    position: relative;
+    align-self: flex-start;
+    margin: 8px 0 0 20px;
+    color: var(--color-blue);
+}
+
+.club-standings-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 210px;
+    height: 44px;
+    padding: 0 12px;
+    border: 2px solid currentColor;
+    border-radius: 14px;
+    background: #ffffff;
+    color: currentColor;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(34, 60, 80, 0.12);
+}
+
+.club-standings-league-logo {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.club-standings-choice-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    fill: currentColor;
+    transform: rotate(90deg);
+    transition: transform 0.2s ease;
+}
+
+.club-standings-dropdown:hover .club-standings-choice-icon {
+    transform: rotate(270deg);
+}
+
+.club-standings-dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    z-index: 99999;
+    width: 210px;
+    max-height: 260px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(34, 60, 80, 0.18);
+    animation: club-standings-fade-in 0.25s ease;
+    top: 100%;
+    padding-top: 8px;
+    background-clip: content-box;
+}
+
+.club-standings-dropdown:hover .club-standings-dropdown-content {
+    display: block;
+}
+
+.club-standings-season-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 16px;
+    color: var(--color-blue);
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.club-standings-season-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.club-standings-season-item:hover {
+    background-color: #f0f4fb;
+}
+
+.club-standings-dropdown-content::-webkit-scrollbar {
+    width: 8px;
+    background-color: #C4D2EC;
+    border-radius: 4px;
+}
+
+.club-standings-dropdown-content::-webkit-scrollbar-thumb {
+    background: #597599;
+    border-radius: 7px;
+}
+
+.club-standings-next-match {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.club-standings-next-match img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.club-standings-current-team {
+    border-left: 2px solid #2f80ed;
+    padding-left: 0;
+    box-sizing: border-box;
+}
+
+.club-standings-team-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.club-standings-team-link h3 {
+    color: inherit;
+}
+
+.club-standings-team-link:hover h3 {
+    color: #2f80ed;
+}
+
+.club-standings-team-link:hover img {
+    transform: scale(1.08);
+}
+
+.club-standings-team-link img {
+    transition: transform 0.2s ease;
+}
+
+.club-standings-current-team-row h3 {
+    font-weight: 700;
+}
+
+@keyframes club-standings-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/*
+   Ниже — адаптив только для таблицы клуба.
+   Используем #top-5, чтобы не сломать обычную league-table.
+*/
+
+
+@media (max-width: 1100px) {
+    #top-5 .ligue-table-games-list,
+    #top-5 .games-header-item {
+        display: none;
+    }
+
+    #top-5 .ligue-table {
+        grid-template-columns: 1fr minmax(150px, 3fr) repeat(6, 1fr) 1fr;
+    }
+}
+
+
+@media (max-width: 1000px) {
+    #top-5 .info-to-hide,
+    #top-5 .club-standings-next-match.info-to-hide {
+        display: none;
+    }
+
+    #top-5 .ligue-table {
+        grid-template-columns: 1fr minmax(150px, 4fr) repeat(5, 1fr);
+        width: 90%;
+        row-gap: 10px;
+    }
+}
+
+
+@media (max-width: 680px) {
+    #top-5 .ligue-table {
+        width: 100%;
+        margin: 20px 0 40px 0;
+    }
+
+    #top-5 .ligue-table-team-info {
+        padding-left: 5px;
+    }
+
+    #top-5 .ligue-table-team-info + *::before {
+        left: -5px;
+    }
+}
+
+
+@media (max-width: 560px) {
+    .club-standings-dropdown {
+        align-self: center;
+        margin-left: 0;
+    }
+
+
+    .club-standings-selector {
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .club-standings-league-logo {
+        width: 22px;
+        height: 22px;
+    }
+
+    #top-5 .ligue-table span,
+    #top-5 .ligue-table h3 {
+        font-size: 14px;
+    }
+}
+
+
+@media (max-width: 450px) {
+    #top-5 .ligue-table {
+        grid-template-columns: 1fr minmax(115px, 6fr) repeat(5, 1fr);
+    }
+
+    #top-5 .ligue-table-team-info + *::before {
+        left: -5px;
+    }
+}

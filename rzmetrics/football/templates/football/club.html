@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ club.name_ru }}{% endblock %}
+{% block extra_css %}
+    <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-base.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-review.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-squad.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-standings.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-matches.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/League-stats.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-stats.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+
+<section class="club-title-section">
+    <div class="club-title-grid">
+        <div class="logo-and-form">
+            <img src="{% static 'football/'|add:club.logo_url %}"
+                 alt="club-logo"
+                 class="club-logo">
+            <ul class="ligue-table-games-list">
+                {% for f in form %}
+                <li>
+                    <svg class="res-circle {{ f }}-circle">
+                        <circle></circle>
+                    </svg>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="club-info-and-name">
+            {% if user.is_authenticated %}
+                <button class="btn-notification" id="btnNotification">
+                    <img src="{% static 'football/icons/heart.svg' %}"
+                         alt="в избранное"
+                         class="club-heart {% if is_favorite_team %}is-favorite{% endif %}">
+                </button>
+            {% endif %}
+            <h1>{{ club.name_ru }}</h1>
+            <div class="club-info-grid">
+                <div class="club-info-sell">
+                    <img src="{% static 'football/'|add:country.flag_url %}"
+                         alt="{{ country }}">
+                    <div>
+                        <p class="club-info-sell-title">СТРАНА</p>
+                        <p class="club-info-sell-info">{{ country.name_ru }}</p>
+                    </div>
+                </div>
+                <div class="club-info-sell club-info-stadium">
+                    <img src="{% static 'football/images/stadium.png' %}"
+                        alt="Stadium">
+                    <div>
+                        <p class="club-info-sell-title">СТАДИОН</p>
+                        <p class="club-info-sell-info">{{ stadium.name }}</p>
+                        <p class="visitors-count">{{ stadium.capacity }} зрителей</p>
+                    </div>
+                </div>
+                <div class="club-info-sell">
+                    <svg fill="#000000" width="50px" height="50px" viewBox="-4 -4 38 38" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <title>calendar</title>
+                        <path d="M27 31h-22c-1.104 0-2-0.896-2-2v-22c0-1.105 0.896-2 2-2h2v1c0 1.657 1.343 3 3 3s3-1.343 3-3v-1h6v1c0 1.657 1.344 3 3 3s3-1.343 3-3v-1h2c1.104 0 2 0.895 2 2v22c0 1.104-0.896 2-2 2zM27 12h-22v17h22v-17zM10 17h-3v-3h3v3zM10 22h-3v-3h3v3zM10 27h-3v-3h3v3zM15 17h-3v-3h3v3zM15 22h-3v-3h3v3zM15 27h-3v-3h3v3zM20 17h-3v-3h3v3zM20 22h-3v-3h3v3zM20 27h-3v-3h3v3zM25 17h-3v-3h3v3zM25 22h-3v-3h3v3zM25 27h-3v-3h3v3zM21.969 8c-1.088 0-1.969-0.882-1.969-1.969v-2.062c0-1.088 0.881-1.969 1.969-1.969s1.969 0.881 1.969 1.969v2.062c0 1.087-0.881 1.969-1.969 1.969zM9.969 8c-1.088 0-1.969-0.882-1.969-1.969v-2.062c0-1.088 0.881-1.969 1.969-1.969s1.969 0.881 1.969 1.969v2.062c0 1.087-0.882 1.969-1.969 1.969z"></path>
+                    </svg>
+                    <div>
+                        <p class="club-info-sell-title">ОСНОВАН</p>
+                        <p class="club-info-sell-info">{{ club.founded_year }} г.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if standing %}
+    <div class="container-nav">
+        <div class="container-nav-buttons">
+            <button class="is-current-but nav-button overview-button" data-tab="overview">Обзор</button>
+            <button class="nav-button squad-button" data-tab="squad">Состав</button>
+            <button class="nav-button table-button" data-tab="standings">Таблица</button>
+            <button class="nav-button games-button" data-tab="games">Матчи</button>
+            <button class="nav-button player-statistics-button" data-tab="player-stats">Лучшие игроки</button>
+            <button class="nav-button statistics-button" data-tab="stats">Статистика</button>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+
+        <div id="overview" class="tab active">
+
+        </div>
+
+        <div id="squad" class="tab">
+
+        </div>
+
+        <div id="standings" class="tab">
+
+        </div>
+
+         <div id="games" class="tab">
+
+        </div>
+
+        <div id="player-stats" class="tab">
+
+        </div>
+
+        <div id="stats" class="tab">
+
+        </div>
+
+    </div>
+    {% endif %}
+</section>
+
+{% if standing %}
+<div id="overlay" class="overlay"></div>
+
+<div id="modal" class="player-stats-modal">
+    <div class="resize-handle">
+        <div class="drag-icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <rect x="0" y="8" width="24" height="2" rx="1" fill="#666666"  />
+              <rect x="0" y="14" width="24" height="2" rx="1" fill="#666666" />
+            </svg>
+        </div>
+    </div>
+    <div class="player-stats-modal-content">
+        <svg id="closeModalBtn" class="close" width="800px" height="800px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="m11.25 4.75-6.5 6.5m0-6.5 6.5 6.5"/>
+        </svg>
+        <ul id="modal-players" class="player-stats-list scrollable">
+
+        </ul>
+    </div>
+</div>
+
+<script>
+    const clubSlug = '{{ club.slug }}';
+    const leagueSlug = '{{ league.slug }}'
+</script>
+<script type="module" src="{% static 'football/js/club.js' %}"></script>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,134 @@
+#stats-cont {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    background-color: white;
+    border-radius: 18px;
+}
+
+.stats-container:last-child {
+  margin-bottom: 30px;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.stats-header h2 {
+    font-weight: 700;
+    color: var(--color-blue);
+}
+
+.more-button {
+    border-style: none;
+    background-color: transparent;
+    text-decoration: underline;
+    font-weight: 700;
+    font-family: var(--font-family-base);
+}
+
+.player-stats-list {
+    width: 90%;
+}
+
+.player-stats-list-element {
+    display: grid;
+    grid-template-columns: 3fr 120px 3fr;
+    grid-template-rows: 1fr;
+    height: 80px;
+    border-radius: 5px;
+    margin: 15px 0;
+    background-color: #FAFAFA;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+
+.player-stats-list-element:first-child {
+    background-color: var(--color-blue);
+    color: white;
+}
+
+.stats-player-info {
+    display: flex;
+    align-items: center;
+}
+
+
+.stats-player-info img {
+    height: 70px;
+    margin-left: -15px;
+}
+
+.stats-player-number{
+    color: currentColor;
+    font-size: 42px;
+    font-weight: 700;
+    margin: 0 10px 0 12px;
+    width:50px;
+    text-align: center;
+}
+
+.stats-player-name {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.stats-player-name span {
+    line-height: 1;
+    color: currentColor;
+    font-size: 20px;
+}
+
+.stats-player-name span:first-child {
+    font-weight: 700;
+}
+
+.player-photo-wrapper{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+    height: 80px;
+}
+
+.player-stats-list-element:first-child .player-photo-wrapper > img{
+    position: absolute;
+    top: -40px;
+    height: 120px;
+    width: auto;
+    z-index: 1;
+}
+
+.player-photo-wrapper > img {
+    height: 100%;
+    width: auto;
+}
+
+
+.player-stats-list-element > span{
+    align-self: center;
+    justify-self: end;
+    color: currentColor;
+    font-size: 42px;
+    font-weight: 700;
+    margin-right: 15px;
+    width:70px;
+    text-align: center;
+}
+
+.stats-player-team-logo{
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}

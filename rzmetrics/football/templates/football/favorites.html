@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Избранное{% endblock %}
+{% block extra_css %}
+    <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Favorites.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-matches.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<section class="favorites-section">
+    <div class="favorites-container">
+        <div class="favorites-list">
+            {% regroup matches by match_datetime.date as matches_by_date %}
+
+            {% for date_group in matches_by_date %}
+                <div class="club-matches-date" data-match-date="{{ date_group.grouper|date:'Y-m-d' }}">
+                    {{ date_group.grouper|date:"d.m.Y" }}
+                </div>
+
+                {% for match in date_group.list %}
+                    <div class="games-list-element club-match-element">
+                        <div class="match club-match">
+                            <div class="club-match-time">
+                                <h3>{{ match.match_datetime|date:"H:i" }}</h3>
+                            </div>
+
+                            <div class="club-match-info">
+                                <span class="club-match-competition">
+                                    {{ match.competition_season.competition.name_ru }}
+                                </span>
+                                <div class="team-info {% if match.home_team.id in favorite_team_ids %}club-current-team{% endif %}">
+                                    <img class="team-info-logo"
+                                         src="{% static 'football/'|add:match.home_team.logo_url %}"
+                                         alt="{{ match.home_team.name }}">
+                                    <h3>{{ match.home_team.name_ru|default:match.home_team.name }}</h3>
+                                </div>
+
+                                <div class="team-info {% if match.away_team.id in favorite_team_ids %}club-current-team{% endif %}">
+                                    <img class="team-info-logo"
+                                         src="{% static 'football/'|add:match.away_team.logo_url %}"
+                                         alt="{{ match.away_team.name }}">
+                                    <h3>{{ match.away_team.name_ru|default:match.away_team.name }}</h3>
+                                </div>
+                            </div>
+
+                            <div class="club-match-score">
+                                {% if match.status == 6 %}
+                                    <span>{{ match.home_score }}</span>
+                                    <span>{{ match.away_score }}</span>
+                                {% else %}
+                                    <span>-</span>
+                                    <span>-</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script type="module" src="{% static 'football/js/favorites.js' %}"></script>
+{% endblock %}

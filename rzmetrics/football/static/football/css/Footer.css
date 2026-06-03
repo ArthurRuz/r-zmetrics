@@ -1,0 +1,118 @@
+footer a{
+    font-family: var(--font-family-base);
+}
+
+footer {
+    background-color: var(--color-blue);
+    height: 300px;
+    display: flex;
+    justify-content: space-around;
+    padding: 70px 15px 0 15px;
+}
+
+.footer-logo-image{
+    width: 380px;
+}
+
+.footer-links{
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: 200;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.footer-button{
+    display: flex;
+    border-style: none;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    width: 380px;
+    height: 65px;
+    align-self: start;
+    border-radius: 12px;
+}
+
+.footer-button:hover{
+    background-color: #bbbbbb;
+    transition: var(--transition-duration);
+    filter: none;
+    cursor: pointer;
+}
+
+.footer-button svg{
+    color: var(--color-blue);
+    margin-right: 10px;
+}
+
+.footer-button span{
+    color: var(--color-blue);
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .footer-button{
+        width: 300px;
+    }
+    .footer-logo-image{
+        width: 300px;
+    }
+}
+
+@media (max-width: 650px) {
+    .footer-button{
+        width: 200px;
+        justify-content: center;
+    }
+
+    .footer-button{
+        height: 55px;
+    }
+
+    .footer-button span{
+        visibility: collapse;
+        width: 70px;
+        position: relative;
+    }
+
+    .footer-button span::before {
+        width: 30px;
+        visibility: visible;
+        position: absolute;
+        content: "ВОЙТИ";
+        top: 50%;
+        left: 0%;
+        transform: translate(-50%, -50%);
+
+    }
+
+    .footer-button svg{
+        font-size: 12px;
+        margin-right: 20px;
+        height: 28px;
+    }
+
+    .footer-logo-image{
+        width: 250px;
+    }
+}
+
+@media (max-width: 500px) {
+    .footer-button{
+        width: 150px;
+        height: 50px;
+        margin-bottom: 25px;
+    }
+    footer{
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+        padding: 10px;
+        justify-content: center;
+        height: 280px;
+    }
+    .footer-button span{
+        height: 0px;
+    }
+}

@@ -1,0 +1,120 @@
+{% load static %}
+
+<div class="tabs-big-container border-container">
+    <div class="overview-content">
+        <h1 class="overview-match-title">ПРЕДСТОЯЩИЙ МАТЧ</h1>
+        {% if upcoming_match %}
+        <div class="upcoming-match-grid">
+            <img src="{% static 'football/'|add:upcoming_match.home_team.logo_url %}"
+                 alt="{{ upcoming_match.home_team.short_name }}">
+            <div class="upcoming-match-time club-match-overview"
+                    data-match-id="{{ upcoming_match.id }}"
+                    data-match-status="{{ upcoming_match.status }}"
+                    {% if upcoming_match.match_datetime|date:"Y-m-d" == today|date:"Y-m-d" and upcoming_match.status < 6 %}
+                    data-live-candidate="1"
+                    {% endif %}>
+                <p data-kickoff-date="{{ upcoming_match.match_datetime|date:'d.m.Y' }}"
+                    class="{% if upcoming_match.status == 3 or upcoming_match.status >= 2 and upcoming_match.status <= 5 %}club-match-time__label--accent{% endif %}">
+                    {% if upcoming_match.status == 3 %}paused
+                    {% elif upcoming_match.status >= 2 and upcoming_match.status <= 5 %}live
+                    {% else %}{{ upcoming_match.match_datetime|date:"d.m.Y" }}
+                    {% endif %}
+                </p>
+                <h3 data-kickoff-time="{{ upcoming_match.match_datetime|date:'H:i' }}">
+                    {% if upcoming_match.status >= 2 and upcoming_match.status <= 6 %}
+                        {{ upcoming_match.home_score|default:0 }}:{{ upcoming_match.away_score|default:0 }}
+                    {% else %}
+                        {{ upcoming_match.match_datetime|date:"H:i" }}
+                    {% endif %}
+                </h3>
+            </div>
+            <img src="{% static 'football/'|add:upcoming_match.away_team.logo_url %}"
+                alt="{{ upcoming_match.away_team.short_name }}">
+            <ul class="ligue-table-games-list">
+                {% for f in home_team_form %}
+                <li>
+                    <svg class="res-circle {{ f }}-circle">
+                        <circle></circle>
+                    </svg>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="placeholder-item"></div>
+            <ul class="ligue-table-games-list">
+                {% for f in away_team_form %}
+                <li>
+                    <svg class="res-circle {{ f }}-circle">
+                        <circle></circle>
+                    </svg>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="match-result">
+                <h2>ПОБЕДА</h2>
+                <p>{{ prediction.home_win }}%</p>
+            </div>
+            <div class="match-result">
+                <h2>НИЧЬЯ</h2>
+                <p>{{ prediction.draw }}%</p>
+            </div>
+            <div class="match-result">
+                <h2>ПОБЕДА</h2>
+                <p>{{ prediction.away_win }}%</p>
+            </div>
+        </div>
+        {% else %}
+        <h1 class="overview-match-title">НЕТ ЗАПЛАНИРОВАННЫХ БЛИЖАЙШИХ МАТЧЕЙ</h1>
+        {% endif %}
+        <div class="results-title">
+            <h1>РЕЗУЛЬТАТЫ</h1>
+        </div>
+        <hr class="results-divider">
+        <div class="last-results">
+            {% for match in last_matches %}
+            <div class="overview-match">
+<!--                {% if match.winner == 0 %}-->
+<!--                <svg class="res-circle d-circle">-->
+<!--                    <circle></circle>-->
+<!--                </svg>-->
+<!--                {% elif match.winner == 1 and match.home_team == club or match.winner == 2 and match.away_team == club %}-->
+<!--                <svg class="res-circle w-circle">-->
+<!--                    <circle></circle>-->
+<!--                </svg>-->
+<!--                {% else %}-->
+<!--                <svg class="res-circle l-circle">-->
+<!--                    <circle></circle>-->
+<!--                </svg>-->
+<!--                {% endif %}-->
+                <div class="team-left">
+                    <p class="team-name team-name-full">{{ match.home_team.name_ru }}</p>
+                    <p class="team-name team-name-short">{{ match.home_team.short_name }}</p>
+                    <img src="{% static 'football/'|add:match.home_team.logo_url %}"
+                         alt="{{ match.home_team.name_ru }}">
+                </div>
+                <div class="score">
+                    <p>{{match.home_score}}:{{match.away_score}}</p>
+                </div>
+                <div class="team-right">
+                    <img src="{% static 'football/'|add:match.away_team.logo_url %}"
+                         alt="{{ match.away_team.name_ru }}">
+                    <p class="team-name team-name-full">{{ match.away_team.name_ru }}</p>
+                    <p class="team-name team-name-short">{{ match.away_team.short_name }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="results-title">
+            <h1>ТУРНИРЫ</h1>
+        </div>
+        <hr class="results-divider">
+        <div class="current-tournaments">
+            {% for competition in competitions %}
+            <a href="{% url 'football:league' competition.slug %}">
+                <img src="{% static 'football/'|add:competition.logo_url %}"
+                     alt="competition.name_ru"
+                     class="overview-competition-logo">
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
