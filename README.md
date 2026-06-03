@@ -1,10 +1,21 @@
+![License](https://img.shields.io/github/license/ArthurRuz/r-zmetrics)
+
 # R&Z Metrics
-___
+
 ## Агрегатор футбольных событий
 
 Этот проект представляет собой веб-приложение, позволяющее следить за футбольными событиями, 
 положением лиг, командами и игроками. Состоит из backend (python, django) и frontend (html, css, js) частей.
 
+## Демонстрация интерфейса  
+
+<div align="center">
+  <img width="40%" alt="image" src="https://github.com/user-attachments/assets/144f9a76-d409-4447-a0c3-415750caf33b" />
+  <img width="40%" alt="image" src="https://github.com/user-attachments/assets/298a9de9-26cc-4769-b8ea-47104afc0925" />
+</div>
+<div align="center">
+  <img width="40%" alt="image" src="https://github.com/user-attachments/assets/da173a5f-6d62-4d22-9b8e-18a718878f27" />
+</div>
 
 ## Установка
 1.  Клонируйте репозиторий:
