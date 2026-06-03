@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block extra_css %}
+    <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+
+<section class="home-section">
+    <div class="match-of-the-day border-container">
+        <h1 class="big-h">НЕ ПРОПУСТИТЕ</h1>
+        {% include 'football/includes/match-of-the-day.html' %}
+    </div>
+    <div class="upcoming-games border-container" id="main-upcoming-games">
+        <h2>БЛИЖАЙАШИЕ МАТЧИ</h2>
+        {% include 'football/includes/games-list.html' with matches=nearest_matches %}
+    </div>
+</section>
+
+{% endblock %}

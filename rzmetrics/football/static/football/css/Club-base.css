@@ -1,0 +1,390 @@
+.club-title-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+    margin-bottom: 20px;
+}
+
+.container-nav{
+    border-radius: 30px 30px 0 0;
+    width: 1200px;
+}
+
+.tabs-container{
+    border-radius: 0 0 30px 30px;
+    width: 1200px;
+}
+
+.club-title-grid {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    grid-template-rows: 1fr;
+    border-radius: 30px;
+    background-color: white;
+    width: 1200px;
+    height: 450px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.logo-and-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.club-logo {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+.ligue-table-games-list {
+    display: flex;
+}
+
+.res-circle{
+  width: 25px;
+  height: 25px;
+  margin: -2px;
+}
+
+.res-circle circle{
+  r: 25%;
+  cx: 50%;
+  cy: 50%;
+}
+
+.w-circle{
+  fill: rgb(0, 221, 11);
+  filter: drop-shadow(0 0 2px rgb(0, 221, 11));
+}
+
+.l-circle{
+  fill: red;
+  filter: drop-shadow(0 0 1px red);
+}
+
+.d-circle{
+  fill: #ffee00;
+  filter: drop-shadow(0 0 1px #ffee00);
+}
+
+.club-info-and-name {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    overflow: hidden;
+}
+
+.club-info-and-name h1 {
+    align-self: center;
+    font-style: bold;
+    font-weight: 700;
+    font-size: 64px;
+    margin: 0;
+    grid-row: 2;
+}
+
+.club-info-grid {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(3, max-content);
+    grid-template-rows: 1fr;
+    grid-row: 3;
+    gap: 20px;
+}
+
+.club-info-sell {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px;  
+}
+
+.club-info-sell img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.club-info-sell:not(.club-info-stadium) > div {
+    width: max-content;
+}
+
+.club-info-stadium > div {
+    max-width: 230px;
+}
+
+.club-info-sell div {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    text-align: start;
+    min-width: 0;
+}
+
+.club-info-sell-title {
+    color: var(--color-blue);
+    font-weight: 300;
+    font-size: 18px;
+    margin: 0;
+}
+
+.club-info-sell-info {
+    font-weight: 500;
+    font-size: 28px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    line-height: 1;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.visitors-count {
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: -7px;
+    margin-bottom: 0;
+}
+
+.btn-notification {
+    width: 62px;
+    height: 62px;
+    border-radius: 13px;
+    background-color: var(--color-medium-blue);
+    border-width: 0;
+    top: 5%;
+    right: 2%;
+    position: absolute;
+    display: flex;
+    align-items: center;      
+    justify-content: center;  
+}
+
+.club-heart {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.club-heart:hover {
+    filter: invert(26%) sepia(72%) saturate(6844%) hue-rotate(353deg) brightness(92%) contrast(125%);
+}
+
+.club-heart.is-favorite {
+    filter: invert(26%) sepia(72%) saturate(6844%) hue-rotate(353deg) brightness(92%) contrast(125%);
+}
+
+.btn-notification:hover .club-heart {
+    transform: scale(1.08);
+}
+}
+
+.results-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.results-title h1 {
+    font-weight: 900;
+    font-size: 24px;
+    margin: 0;
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+}
+
+.results-divider {
+    border: none;
+    background-color: var(--color-blue);
+    height: 2px;
+    width: 90%;
+    margin-top: 0;
+}
+
+@media (max-width: 1300px) {
+    .container-nav{
+        width: 90%;
+    }
+
+    .tabs-container{
+        width: 90%;
+    }
+
+    .club-title-grid {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .club-title-grid {
+        height: 400px;
+    }
+
+    .club-logo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .btn-notification {
+        width: 45px;
+        height: 45px;
+    }
+
+    .btn-notification svg {
+        width: 23px;
+        height: 23px;
+    }
+
+    .club-info-and-name h1 {
+        font-size: 48px;
+    }
+
+    .club-info-sell img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .club-info-sell svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .club-info-sell-title {
+        font-size: 16px;
+    }
+
+    .club-info-sell-info {
+        font-size: 24px;
+    }
+
+    .visitors-count {
+        font-size: 18px;
+    }
+
+    .club-info-stadium > div {
+        max-width: 210px;
+    }
+}
+
+@media (max-width: 900px) {
+    .club-info-grid {
+        gap: 10px;
+    }
+
+    .club-info-stadium > div {
+        max-width: 180px;
+    }
+}
+
+@media (max-width: 800px) {
+    .club-title-grid {
+        grid-template-columns: 1fr 4fr;
+    }
+
+    .club-logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .club-info-and-name h1 {
+        font-size: 32px;
+    }
+
+    .club-info-sell-title {
+        font-size: 12px;
+    }
+
+    .club-info-sell-info {
+        font-size: 20px;
+    }
+
+    .visitors-count {
+        font-size: 16px;
+    }
+
+    .club-info-sell img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .club-info-sell svg {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 700px) {
+    .container-nav{
+        margin-top: 10px;
+    }
+
+    .club-title-grid {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 650px) {
+    .club-info-sell {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .club-info-sell div {
+        align-items: center;
+    }
+
+    .club-info-sell-info {
+        text-align: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .club-title-grid {
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 10px 0 10px 0;
+    }
+
+    .club-info-and-name {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tabs-container {
+        width: 95%;
+    }
+
+    .container-nav {
+        width: 95%;
+    }
+
+    .club-info-sell-info {
+        font-size: 16px;
+        margin-top: 0px;
+    }
+
+    .club-info-and-name h1 {
+        font-size: 28px;
+    }
+
+    .visitors-count {
+        font-size: 14px;
+    }
+}

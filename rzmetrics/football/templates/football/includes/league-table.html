@@ -1,0 +1,50 @@
+{% load static %}
+{% load split_filter %}
+
+<div id="top-5" class="tabs-big-container border-container">
+    <div class="ligue-table">
+        <span class="ligue-table-header-item">№</span>
+        <span class="ligue-table-header-item">КОМАНДА</span>
+        <span class="ligue-table-header-item">И</span>
+        <span class="ligue-table-header-item">В</span>
+        <span class="ligue-table-header-item">Н</span>
+        <span class="ligue-table-header-item">П</span>
+        <span class="ligue-table-header-item info-to-hide">+/-</span>
+        <span class="ligue-table-header-item">ОЧК</span>
+        <span class="ligue-table-header-item games-header-item">МАТЧИ</span>
+        <span class="ligue-table-header-item info-to-hide">СЛЕД. МАТЧ</span>
+
+        {% for standing in standings %}
+        <span>{{ standing.position }}</span>
+        <a class="ligue-table-team-info" href="{% url 'football:club' standing.team.slug %}">
+            <img src="{% static 'football/'|add:standing.team.logo_url %}">
+            <h3>{{ standing.team.short_name }}</h3>
+        </a>
+        <span>{{ standing.played }}</span>
+        <span>{{ standing.wins }}</span>
+        <span>{{ standing.draws }}</span>
+        <span>{{ standing.losses }}</span>
+        <span class="info-to-hide">{{ standing.goals_for }}/{{ standing.goals_against }}</span>
+        <span>{{ standing.points }}</span>
+        <ul class="ligue-table-games-list">
+            {%  with form=standing.form|split_filter:"," %}
+                {% for result in form %}
+                <li>
+                    <svg class="res-circle
+                                {% if result == 'W'%} win-circle
+                                {% elif result == 'D'%} draw-circle
+                                {% else %} loose-circle
+                                {% endif %}
+                                ">
+                        <circle></circle>
+                    </svg>
+                </li>
+                {% endfor %}
+            {% endwith %}
+        </ul>
+        <img class="info-to-hide" src="../Images/manchester_city.png">
+        {% endfor %}
+
+    </div>
+</div>
+

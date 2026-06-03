@@ -1,0 +1,390 @@
+.overview-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-family-base);
+    color: black;
+}
+
+.overview-match-title {
+    margin: 20px 0;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.upcoming-match-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 4fr 1fr 2fr;
+    justify-items: center;
+    align-items: center;
+    width: 470px;
+    gap: 20px;
+}
+
+.upcoming-match-grid img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.upcoming-match-time {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upcoming-match-time p {
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0;
+}
+
+.upcoming-match-time h3 {
+    font-weight: 900;
+    font-size: 35px;
+    margin-top: -11px;
+    margin-bottom: 0;
+    color: var(--color-blue);
+}
+
+.club-match-overview.club-match-time--live h3,
+.club-match-overview.club-match-time--paused h3 {
+    color: var(--color-blue);
+}
+
+.club-match-overview p.club-match-time__label--accent,
+.club-match-overview.club-match-time--live p,
+.club-match-overview.club-match-time--paused p {
+    color: #d32f2f;
+}
+
+.placeholder-item {
+    visibility: hidden;
+}
+
+.match-result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-result h2 {
+    font-weight: 200;
+    font-size: 18px;
+    margin: 0;
+}
+
+.match-result p {
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.results-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.results-title h1 {
+    font-weight: 900;
+    font-size: 24px;
+    margin: 0;
+}
+
+.last-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.overview-match {
+    display: grid;
+    align-items: center;
+    grid-template-rows: 1fr;
+    grid-template-columns: 5fr 1fr 5fr;
+    width: 90%;
+    height: 90px;
+    border-radius: 13px;
+    gap: 20px;
+    position: relative;
+    background-color: #F6F6F6;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.overview-match svg {
+    position: absolute;
+    left: 5%;
+}
+
+.team-left, .team-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.team-left {
+    justify-content: flex-end;
+}
+
+.team-right {
+    justify-content: flex-start;
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: white;
+    flex-shrink: 0; 
+}
+
+.overview-match img {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.team-name {
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap; 
+}
+
+.team-name-short {
+    display: none;
+}
+
+.score p {
+    margin: 0;
+    font-weight: 900;
+    font-size: 36px;
+}
+
+.current-tournaments {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 70%;
+    height: auto;
+    gap: 30px;
+    border-radius: 13px;
+    background-color: #F6F6F6;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.overview-competition-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+@media (max-width: 1300px) {
+
+    .team-name {
+        font-size: 22px;
+    }
+
+    .score {
+        width: 80px;
+    }
+
+    .score p {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 1250px) {
+    .current-tournaments img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .match-result p {
+        font-size: 20px;
+    }
+
+    .match-result h2 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .upcoming-match-grid img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .overview-match img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .team-name {
+        font-size: 20px;
+    }
+
+    .team-left, .team-right {
+        gap: 5px;
+    }
+
+    .results-title h1 {
+        font-size: 22px;
+    }
+
+    .score {
+        width: 60px;
+    }
+
+    .score p {
+        font-size: 26px;
+    }
+
+    .overview-match-title {
+        font-size: 18px;
+    }
+
+    .upcoming-match-grid {
+        width: 300px;
+    }
+    
+    .upcoming-match-time h3 {
+        font-size: 28px;
+    }
+
+    .match-result h2 {
+        font-size: 16px;
+    }
+
+    .match-result p {
+        font-size: 20px;
+    }
+
+    .current-tournaments img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 800px) {
+    .results-title h1 {
+        font-size: 18px;
+    }
+
+    .results-title {
+        width: 100%
+    }
+
+    .results-divider {
+        width: 100%;
+    }
+
+    .overview-match {
+        width: 100%;
+        height: 70px;
+    }
+}
+
+@media (max-width: 700px) {
+    .upcoming-match-grid {
+        gap: 5px;
+    }
+
+    .upcoming-match-grid img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .upcoming-match-time h3 {
+        font-size: 18px;
+        margin-top: -5px;
+    }
+
+    .upcoming-match-time p {
+        font-size: 14px;
+    }
+
+    .res-circle {
+        width: 15px;
+        height: 15px;
+    }
+
+    .match-result h2 {
+        font-size: 14px;
+    }
+
+    .match-result p {
+        font-size: 16px;
+    }
+
+    .results-title h1 {
+        font-size: 16px;
+    }
+
+    .team-name {
+        font-size: 16px;
+    }
+
+    .score p {
+        font-size: 18px;
+    }
+
+    .score {
+        width: 50px;
+        height: 40px;
+    }
+
+    .overview-match {
+        height: 60px;
+        gap: 10px;
+    }
+
+    .last-results {
+        gap: 10px;
+    }
+
+    .team-name-full {
+        display: none;
+    }
+
+    .team-name-short {
+        display: block;
+    }
+}
+
+@media (max-width: 500px) {
+    .upcoming-match-grid img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .overview-match img {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 450px) {
+    .overview-match img {
+        width: 0px;
+        height: 0px;
+    }
+
+    .current-tournaments img {
+        width: 40px;
+        height: 40px;
+    }
+}

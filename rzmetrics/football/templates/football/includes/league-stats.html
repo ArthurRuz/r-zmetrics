@@ -1,0 +1,37 @@
+{% load static %}
+{% load split_filter %}
+
+<div id='stats-cont'>
+    {% for key, value in stats.items %}
+    <div class="stats-container border-container">
+        <div class="stats-header">
+            <h2>{{ value.0 }}</h2>
+            <button id="{{key}}" class="more-button">ЕЩЁ</button>
+        </div>
+        <ul class="player-stats-list">
+            {% for player in value.1 %}
+            <li class="player-stats-list-element">
+                <div class="stats-player-info">
+                    <img class="stats-player-team-logo" src="{% static 'football/'|add:player.team.logo_url %}" alt="team-logo">
+                    <span class="stats-player-number">{{ player.shirt_number }}</span>
+                    <div class="stats-player-name">
+                        {%  with full_name=player.player.name|split_filter:" " %}
+                        <span>{{ full_name.0|upper }}</span>
+                        <span>{{ full_name.1|upper }}</span>
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="player-photo-wrapper">
+                    {% if player.player.photo_url %}
+                        <img src="{% static 'football/'|add:player.player.photo_url %}" alt="player">
+                    {% else %}
+                        <img src="{% static 'football/players_photos/NoPhoto.png' %}" alt="player">
+                    {% endif %}
+                </div>
+                <span>{{ player.value }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>

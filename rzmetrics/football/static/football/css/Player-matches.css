@@ -1,0 +1,339 @@
+.player-matches-header {
+    width: 92%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.player-matches-header h2 {
+    margin: 0;
+    font-family: var(--font-family-base);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-blue);
+}
+
+.player-matches-header p {
+    margin: 6px 0 0 0;
+    font-family: var(--font-family-base);
+    color: #7b7d81;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.player-matches-list {
+    width: 92%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    margin-bottom: 40px;
+    max-height: 650px;
+    overflow-y: auto;
+    padding-right: 12px;
+}
+
+.player-matches-list::-webkit-scrollbar {
+    width: 12px;
+    background-color: #C4D2EC;
+    border-radius: 7px;
+}
+
+.player-matches-list::-webkit-scrollbar-thumb {
+    background: #597599;
+    border-radius: 7px;
+}
+
+.player-matches-list::-webkit-scrollbar-thumb:hover {
+    background: #496480;
+}
+
+.player-matches-date {
+    margin-top: 18px;
+    padding-left: 8px;
+    font-family: var(--font-family-base);
+    font-size: 18px;
+    font-weight: 700;
+    color: #7b7d81;
+}
+
+.player-match-element {
+    margin: 0;
+    padding: 14px 18px;
+    background-color: #f6f6f6;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(34, 60, 80, 0.08);
+}
+
+.player-match {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70px 1fr 70px 150px 58px;
+    column-gap: 18px;
+    align-items: center;
+}
+
+.player-match-time {
+    width: 70px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.player-match-time h3 {
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.player-match-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    position: relative;
+}
+
+.player-match-info::after {
+    content: " ";
+    background: #bababb;
+    width: 1px;
+    height: 100%;
+    right: -9px;
+    position: absolute;
+}
+
+.player-match-info::before {
+    content: " ";
+    background: #bababb;
+    width: 1px;
+    height: 100%;
+    left: -9px;
+    position: absolute;
+}
+
+.player-current-team h3 {
+    font-weight: 800;
+}
+
+.player-current-team {
+    position: relative;
+}
+
+.player-current-team::before {
+    content: " ";
+    position: absolute;
+    left: -9px;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #2f80ed;
+    border-radius: 8px;
+}
+
+.player-match-score {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 8px;
+}
+
+.player-match-score span {
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.player-match-actions {
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.player-match-action {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    padding: 4px 6px;
+    background-color: #ffffff;
+    border-radius: 999px;
+    box-shadow: 0 2px 7px rgba(34, 60, 80, 0.08);
+}
+
+.player-match-action img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.player-match-action span {
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.player-match-rating {
+    width: 48px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.player-match-rating-empty {
+    background-color: #9ca3af;
+}
+
+.player-match-rating-red {
+    background-color: #e03131;
+}
+
+.player-match-rating-yellow {
+    background-color: #f2c94c;
+    color: var(--color-blue);
+}
+
+.player-match-rating-light-green {
+    background-color: #8ce99a;
+    color: var(--color-blue);
+}
+
+.player-match-rating-green {
+    background-color: #2f9e44;
+}
+
+.player-match-rating-blue {
+    background-color: #2f80ed;
+}
+
+.player-matches-season-selector {
+    color: var(--color-blue);
+    height: 44px;
+}
+
+.team-info {
+    display: grid;
+    grid-template-columns: 20px auto;
+    column-gap: 5px;
+    align-items: center;
+}
+
+.team-info-logo {
+    margin: 0;
+    justify-self: center;
+}
+
+.player-match-competition {
+    margin-bottom: 2px;
+    font-family: var(--font-family-base);
+    font-size: 12px;
+    font-weight: 700;
+    color: #7b7d81;
+}
+
+@media (max-width: 850px) {
+    .player-match {
+        grid-template-columns: 60px 1fr 55px 120px 50px;
+        column-gap: 12px;
+    }
+
+    .player-match-actions {
+        gap: 6px;
+    }
+}
+
+@media (max-width: 680px) {
+    .player-matches-header {
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 16px;
+    }
+
+    .player-match {
+        grid-template-columns: 55px 1fr 45px;
+        grid-template-areas:
+            "time teams score"
+            "actions actions rating";
+        row-gap: 12px;
+    }
+
+    .player-match-time {
+        grid-area: time;
+        width: 55px;
+    }
+
+    .player-match-info {
+        grid-area: teams;
+    }
+
+    .player-match-score {
+        grid-area: score;
+    }
+
+    .player-match-actions {
+        grid-area: actions;
+        justify-content: flex-start;
+        padding-left: 64px;
+    }
+
+    .player-match-rating {
+        grid-area: rating;
+    }
+
+    .player-match-element {
+        padding: 12px;
+    }
+
+    .player-match-time h3,
+    .player-match-score span {
+        font-size: 16px;
+    }
+
+    .player-match-info .team-info h3 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 450px) {
+    .player-matches-list {
+        width: 96%;
+    }
+
+    .player-match {
+        grid-template-columns: 45px 1fr 35px;
+        column-gap: 8px;
+    }
+
+    .player-match-time {
+        width: 45px;
+    }
+
+    .player-match-time h3,
+    .player-match-score span,
+    .player-match-info .team-info h3 {
+        font-size: 14px;
+    }
+
+    .player-match-actions {
+        padding-left: 53px;
+    }
+
+    .player-current-team::before {
+        left: -7px;
+    }
+}

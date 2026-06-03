@@ -1,0 +1,70 @@
+{% load static %}
+
+<div class="tabs-big-container border-container">
+    <div class="squad-content">
+        <h1>СОСТАВ</h1>
+        <h3>ГЛАВНЫЙ ТРЕНЕР</h3>
+        <hr class="positions-divider">
+        <div class="squad-line">
+            <div class="player-card">
+                <div class="player-photo">
+                    {% if head_coach.photo_url %}
+                    <img src="{% static 'football/'|add:head_coach.photo_url %}"
+                         alt="{{player.name}}">
+                    {% else %}
+                    <img src="{% static 'football/coaches_photos/NoPhoto.png' %}"
+                         alt="No photo">
+                    {% endif %}
+                </div>
+                <div class="player-name-and-country">
+                    <h3>{{ head_coach.name }}</h3>
+                    <div>
+                        {% if head_coach.country %}
+                        <img src="{% static 'football/'|add:head_coach.country.flag_url %}"
+                             alt="{{head_coach.country.name_ru}}">
+                        <p>{{head_coach.country.name_ru}}</p>
+                        {% else %}
+                        <img src="{% static 'football/flag_url/None.svg' %}"
+                             alt="undefined">
+                        <p>Undefined</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for position, players in squad.items %}
+        <h3>{{ position }}</h3>
+        <hr class="positions-divider">
+        <div class="squad-line">
+            {% for player in players %}
+            <a href="{% url 'football:player' player.slug player.pk %}" class="player-card">
+                <div class="player-photo">
+                    <p class="player-number">{{ player.current_shirt_number|default:"-" }}</p>
+                    {% if player.photo_url %}
+                    <img src="{% static 'football/'|add:player.photo_url %}"
+                         alt="{{player.name}}">
+                    {% else %}
+                    <img src="{% static 'football/players_photos/NoPhoto.png' %}"
+                         alt="No photo">
+                    {% endif %}
+                </div>
+                <div class="player-name-and-country">
+                    <h3>{{player.name}}</h3>
+                    <div>
+                        {% if player.country %}
+                        <img src="{% static 'football/'|add:player.country.flag_url %}"
+                             alt="{{player.country.name_ru}}">
+                        <p>{{player.country.name_ru}}</p>
+                        {% else %}
+                        <img src="{% static 'football/flag_url/None.svg' %}"
+                             alt="undefined">
+                        <p>Undefined</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>

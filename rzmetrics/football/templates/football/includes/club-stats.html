@@ -1,0 +1,300 @@
+{% load static %}
+{% load split_filter %}
+{% load dict_filters %}
+
+
+<div id="top-5" class="tabs-big-container border-container">
+    <div class="club-standings-dropdown">
+        <button id="clubStatsSeasonBtn" class="club-standings-selector">
+            <img
+                class="club-standings-league-logo"
+                src="{% static 'football/'|add:league.logo_url %}"
+                alt="{{ league.name }}"
+            >
+
+            <span id="clubStandingsSelectedSeason">{{ competition_season.season.name }}</span>
+
+            <svg viewBox="0 0 24 24" class="club-standings-choice-icon">
+                <path d="M12 22c-5.52-.006-9.994-4.48-10-10v-.2C2.11 6.305 6.635 1.928 12.13 2c5.497.074 9.904 4.569 9.868 10.065C21.962 17.562 17.497 22 12 22Zm0-18a8 8 0 1 0 8 8a8.009 8.009 0 0 0-8-8Zm-1.45 13l-1.414-1.415l3.535-3.535l-3.535-3.535L10.55 7.1l4.95 4.95L10.551 17h-.001Z"/>
+            </svg>
+        </button>
+
+        <div class="club-standings-dropdown-content">
+            {% for season in seasons %}
+                <span class="club-standings-season-item" data-season="{{ season.season.name }}" data-page-type="stats">
+                    <img class="club-standings-season-logo"
+                         src="{% static 'football/'|add:league.logo_url %}"
+                         alt="{{ league.name }}"
+                         >
+                    {{ season.season.name }}
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="results-title">
+        <h1>Общая статистика</h1>
+    </div>
+    <hr class="results-divider">
+    <div class="club-season-stats">
+        <div class="club-stat-card">
+            <span class="club-stat-label">Победы</span>
+            <strong class="club-stat-value">{{ stats.team_total_stats.wins|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Ничьи</span>
+            <strong class="club-stat-value">{{ stats.team_total_stats.draws|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Поражения</span>
+            <strong class="club-stat-value">{{ stats.team_total_stats.losses|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Голы</span>
+            <strong class="club-stat-value">{{ stats.team_total_stats.goals_for|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Пропущено</span>
+            <strong class="club-stat-value">{{ stats.team_total_stats.goals_against|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Разница мячей</span>
+            <strong class="club-stat-value">{{ stats.team_total_stats.goal_difference|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Голы/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.goals_scored_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Пропущено/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.goals_against_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Ожидаемые голы/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.xG_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Ожидаемые голы (соперник)/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.xGA_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Удары/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.shots_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Удары в створ/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.shots_on_target_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Владение</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.possession_per_match|default:0 }}%</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Точность передач</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.passes_accurate|default:0 }}%</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Угловые/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.corners_per_match|default:0 }}</strong>
+        </div>
+
+        <div class="club-stat-card">
+            <span class="club-stat-label">Фолы/матч</span>
+            <strong class="club-stat-value">{{ stats.avg_stats.fouls_per_match|default:0 }}</strong>
+        </div>
+    </div>
+
+    <div class="results-title club-analytics-title">
+        <h1>Оборона</h1>
+    </div>
+    <hr class="results-divider">
+
+    <div class="club-defense-card">
+        <div class="club-defense-main">
+            <span class="club-defense-label">Надёжность обороны</span>
+            <strong class="club-defense-status">
+                {{ stats.defensive_stats.reliability_text }}
+            </strong>
+            <p class="club-defense-description">
+                Команда сыграла на ноль в
+                <strong>{{ stats.defensive_stats.clean_sheets }}</strong>
+                матчах сезона.
+            </p>
+        </div>
+
+        <div class="club-defense-grid">
+            <div class="club-defense-metric">
+                <span>Сухие матчи</span>
+                <strong>{{ stats.defensive_stats.clean_sheets }}</strong>
+            </div>
+
+            <div class="club-defense-metric">
+                <span>Сухие матчи, %</span>
+                <strong>{{ stats.defensive_stats.clean_sheet_percent }}%</strong>
+            </div>
+
+            <div class="club-defense-metric">
+                <span>Пропущено/матч</span>
+                <strong>{{ stats.defensive_stats.goals_against_per_match }}</strong>
+            </div>
+
+            <div class="club-defense-metric">
+                <span>Удары соперника/матч</span>
+                <strong>{{ stats.defensive_stats.opponent_shots_per_match }}</strong>
+            </div>
+
+            <div class="club-defense-metric">
+                <span>Удары в створ соперника/матч</span>
+                <strong>{{ stats.defensive_stats.opponent_shots_on_target_per_match }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="results-title club-analytics-title">
+        <h1>xG и фактические голы</h1>
+    </div>
+    <hr class="results-divider">
+
+    <div class="club-xg-chart-card">
+        <div class="club-xg-chart-header">
+            <div>
+                <h2>Реализация моментов</h2>
+                <p>{{ stats.goals_for_conclusion }}</p>
+            </div>
+
+            <div class="club-xg-legend">
+                <span><i class="club-xg-dot club-xg-dot-goals"></i>Голы</span>
+                <span><i class="club-xg-dot club-xg-dot-xg"></i>xG</span>
+            </div>
+        </div>
+
+        <div class="club-xg-chart">
+            {% for item in stats.xg_goal_chart %}
+                <div class="club-xg-row">
+                    <div class="club-xg-label">{{ item.label }}</div>
+
+                    <div class="club-xg-bars">
+                        <div class="club-xg-bar-line">
+                            <span class="club-xg-bar-name">Голы</span>
+                            <div class="club-xg-bar-track">
+                                <div class="club-xg-bar club-xg-bar-goals"
+                                     style="width: {{ item.goals_width }}%;">
+                                </div>
+                            </div>
+                            <strong>{{ item.goals }}</strong>
+                        </div>
+
+                        <div class="club-xg-bar-line">
+                            <span class="club-xg-bar-name">xG</span>
+                            <div class="club-xg-bar-track">
+                                <div class="club-xg-bar club-xg-bar-xg"
+                                     style="width: {{ item.xg_width }}%;">
+                                </div>
+                            </div>
+                            <strong>{{ item.xg }}</strong>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="club-stats-empty">Нет данных xG для выбранного сезона.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="results-title club-analytics-title">
+        <h1>Домашние и гостевые матчи</h1>
+    </div>
+    <hr class="results-divider">
+
+    <div class="club-home-away-grid">
+        <div class="club-home-away-card">
+            <div class="club-home-away-header">
+                <span>Дома</span>
+                <strong>{{ stats.team_home_stats.points }}</strong>
+            </div>
+
+            <div class="club-home-away-record">
+                {{ stats.team_home_stats.wins }}-{{ stats.team_home_stats.draws }}-{{ stats.team_home_stats.losses }}
+            </div>
+
+            <div class="club-home-away-details">
+                <div>
+                    <span>Матчи</span>
+                    <strong>{{ stats.team_home_stats.played }}</strong>
+                </div>
+
+                <div>
+                    <span>Голы</span>
+                    <strong>{{ stats.team_home_stats.goals_for }}:{{ stats.team_home_stats.goals_against }}</strong>
+                </div>
+
+                <div>
+                    <span>Очки/матч</span>
+                    <strong>{{ stats.home_points_per_match }}</strong>
+                </div>
+
+                <div>
+                    <span>xG/матч</span>
+                    <strong>{{ stats.avg_home_stats.xG_per_match }}</strong>
+                </div>
+
+                <div>
+                    <span>xGA/матч</span>
+                    <strong>{{ stats.avg_home_stats.xGA_per_match }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="club-home-away-card">
+            <div class="club-home-away-header">
+                <span>В гостях</span>
+                <strong>{{ stats.team_away_stats.points }}</strong>
+            </div>
+
+            <div class="club-home-away-record">
+                {{ stats.team_away_stats.wins }}-{{ stats.team_away_stats.draws }}-{{ stats.team_away_stats.losses }}
+            </div>
+
+            <div class="club-home-away-details">
+                <div>
+                    <span>Матчи</span>
+                    <strong>{{ stats.team_away_stats.played }}</strong>
+                </div>
+
+                <div>
+                    <span>Голы</span>
+                    <strong>{{ stats.team_away_stats.goals_for }}:{{ stats.team_away_stats.goals_against }}</strong>
+                </div>
+
+                <div>
+                    <span>Очки/матч</span>
+                    <strong>{{ stats.away_points_per_match }}</strong>
+                </div>
+
+                <div>
+                    <span>xG/матч</span>
+                    <strong>{{ stats.avg_away_stats.xG_per_match }}</strong>
+                </div>
+
+                <div>
+                    <span>xGA/матч</span>
+                    <strong>{{ stats.avg_away_stats.xGA_per_match }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

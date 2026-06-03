@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load age_filter %}
+
+{% block title %}{{ player.name }}{% endblock %}
+{% block extra_css %}
+    <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Player.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Club-standings.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Player-overview.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Player-matches.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+
+<section class="player-profile-section">
+    <div class="player-profile-grid">
+        <div class="player-name">
+            <h2>{{ first_name|upper }}</h2>
+            <p>{{ other_parts|join:" "|upper }}</p>
+        </div>
+        <div class="player-info">
+            <div class="player-info-data age">
+                <div>
+                    <h2>ВОЗРАСТ</h2>
+                    <p>{{ age|age_word }}</p>
+                </div>
+            </div>
+            {% if team %}
+            <a href="{% url 'football:club' team.slug %}" class="player-info-data player-club">
+                <img src="{% static 'football/'|add:team.logo_url %}"
+                     alt="club-logo"
+                     class="club-logo">
+                <div>
+                    <h2>КЛУБ</h2>
+                    <p>{{ team.name_ru }}</p>
+                </div>
+            </a>
+            {% else %}
+            <div class="player-info-data player-club">
+                <img src="{% static 'football/team_logos/no-team.svg' %}"
+                     alt="club-logo"
+                     class="club-logo">
+                <div>
+                    <h2>КЛУБ</h2>
+                    <p>Нет команды</p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="player-info-data player-country">
+                {% if country %}
+                <img src="{% static 'football/'|add:country.flag_url %}"
+                     alt="{{country.name_ru}}">
+                {% else %}
+                <img src="{% static 'football/flag_url/undefined.svg' %}"
+                     alt="undefined">
+                {% endif %}
+                <div>
+                    <h2>НАЦИОНАЛЬНОСТЬ</h2>
+                    {% if country %}
+                    <p>{{country.name_ru}}</p>
+                    {% else %}
+                    <p>Undefined</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="player-photo-and-number">
+            {% if player.photo_url %}
+            <img src="{% static 'football/'|add:player.photo_url %}"
+                 alt="{{player.name}}">
+            {% else %}
+            <img src="{% static 'football/players_photos/NoPhoto.png' %}"
+                 alt="No photo">
+            {% endif %}
+            <h1>{{ shirt_number }}</h1>
+            <p>{{ shirt_number }}</p>
+        </div>
+        <p class="player-position">{{ player.get_main_position_display }}</p>
+    </div>
+
+    {% if season_stats %}
+    <div class="container-nav">
+        <div class="container-nav-buttons">
+            <button class="is-current-but nav-button statistics-button" data-tab="stats">Обзор</button>
+            <button class="nav-button games-button" data-tab="games">Матчи</button>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+
+        <div id="stats" class="tab active">
+
+        </div>
+
+        <div id="games" class="tab">
+
+        </div>
+
+    </div>
+    {% endif %}
+</section>
+
+<script>
+    const playerSlug = '{{ player.slug }}';
+    const playerId = '{{ player.pk }}'
+</script>
+<script type="module" src="{% static 'football/js/player.js' %}"></script>
+
+{% endblock %}

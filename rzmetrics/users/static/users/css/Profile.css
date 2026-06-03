@@ -1,0 +1,316 @@
+.profile-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    height: auto;
+    background-color: white;
+    border-radius: 17px;
+    gap: 20px;
+    padding: 20px;
+}
+
+.profile-photo-and-nickname {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    gap: 10px;
+}
+
+.profile-photo-wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+}
+
+.profile-photo {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    box-shadow: 0px 1px 8px 0px #00000040;
+    border: 3px solid #FAFAFA;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-photo-and-nickname div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-nickname {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.profile-email {
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: -11px;
+}
+
+.profile-right-button,
+.profile-delete-photo-button {
+    position: absolute;
+
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    outline: none;
+}
+
+.profile-right-button {
+    right: -10px;
+    top: 8px;
+}
+
+.profile-delete-photo-button {
+    right: -10px;
+    bottom: 8px;
+}
+
+.profile-right-button img,
+.profile-delete-photo-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.profile-delete-photo-button-hidden {
+    display: none;
+}
+
+.profile-divider {
+    border: none;
+    background-color: var(--color-blue);
+    height: 2px;
+    width: 100%;
+    margin: 0;
+}
+
+.profile-header {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.chosen-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, max-content));
+    justify-content: center;
+    align-items: stretch;
+    width: 90%;
+    gap: 10px;
+}
+
+.chosen-card {
+    width: 130px;
+    min-height: 140px;
+
+    border: 1px solid #0B1D35;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 14px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 10px;
+    box-sizing: border-box;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chosen-card p {
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0;
+    text-align: center;
+    color: var(--color-blue);
+    line-height: 1.1;
+
+    max-width: 100%;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    hyphens: none;
+}
+
+.chosen-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 30px rgba(47, 81, 126, 0.5);
+    filter: none;
+}
+
+.profile-team-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.no-chosen {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.profile-personal-data {
+    border-radius: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    width: 500px;
+    height: auto;
+    padding: 20px 40px;
+}
+
+.form > div {
+    width: 100%;
+}
+
+.continue-button {
+    width: 100%;
+}
+
+.flatpickr-calendar {
+    border-radius: 14px;
+    box-shadow: 0px 4px 14px 0px #00000030;
+    font-family: var(--font-family-base);
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+    background: var(--color-blue);
+    border-color: var(--color-blue);
+}
+
+.flatpickr-day.today {
+    border-color: var(--color-blue);
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    color: var(--color-blue);
+    font-weight: 600;
+}
+
+.date-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.date-picker-button {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    outline: none;
+}
+
+.date-picker-button img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    opacity: 0.65;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.date-picker-button:hover img {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+.date-input-wrapper .date-picker-visible-input {
+    width: 100%;
+    padding-right: 45px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1300px) {
+    .profile-card{
+        width: 35%;
+    }
+
+    .profile-personal-data {
+        width: 35%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .profile-header {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .profile-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-card{
+        width: 50%;
+    }
+
+    .profile-personal-data {
+        width: 50%;
+    }
+}
+
+@media (max-width: 760px) {
+    .profile-card{
+        width: 70%;
+    }
+
+    .profile-personal-data {
+        width: 70%;
+    }
+}
+
+@media (max-width: 500px) {
+    .profile-header {
+        font-size: 18px;
+    }
+
+    .profile-card{
+        width: 90%;
+    }
+
+    .profile-personal-data {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .auth-input {
+        width: 100%;
+    }
+}

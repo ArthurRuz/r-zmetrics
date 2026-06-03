@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load split_filter %}
+
+{% block title %}Лига{% endblock %}
+{% block extra_css %}
+    <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/League-matches.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/League-stats.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+
+<section class="team-choice-section">
+    <div class="league-info">
+        <div class="league-info-container">
+            <img src="{% static 'football/'|add:league.logo_url %}"
+             alt="Лого лиги"
+             class="league-logo">
+            <div>
+                <h2 class="league-name">{{ league.name }}</h2>
+                <div class="league-country-n-logo">
+                    <img class="league-country-flag" src="{% static 'football/'|add:league.country.flag_url %}" alt="Флаг">
+                    <h3>{{ league.country.name }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button id="seasonBtn" class="selector">
+                <span id="selectedSeason">2025-2026</span>
+                    <svg viewBox="0 0 24 24" class="choice-icon">
+                        <path d="M12 22c-5.52-.006-9.994-4.48-10-10v-.2C2.11 6.305 6.635 1.928 12.13 2c5.497.074 9.904 4.569 9.868 10.065C21.962 17.562 17.497 22 12 22Zm0-18a8 8 0 1 0 8 8a8.009 8.009 0 0 0-8-8Zm-1.45 13l-1.414-1.415l3.535-3.535l-3.535-3.535L10.55 7.1l4.95 4.95L10.551 17h-.001Z"/>
+                    </svg>
+            </button>
+
+            <div class="dropdown-content">
+            {% for season in seasons %}
+            <span class="season-item">{{ season.season.name }}</span>
+            {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-nav">
+        <div class="container-nav-buttons">
+            <button class="is-current-but nav-button overview-button" data-tab="overview">Обзор</button>
+            <button class="nav-button table-button" data-tab="table">Таблица</button>
+            <button class="nav-button games-button" data-tab="games">Матчи</button>
+            <button class="nav-button statistics-button" data-tab="stats">Статистика</button>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+
+        <div id="overview" class="tab active">
+
+        </div>
+
+        <div id="table" class="tab">
+<!--            <div id='big-table' class="tabs-big-container border-container">-->
+<!--            </div>-->
+        </div>
+
+        <div id="games" class="tab">
+
+        </div>
+
+        <div id="stats" class="tab">
+
+        </div>
+
+    </div>
+</section>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="modal" class="player-stats-modal">
+    <div class="resize-handle">
+        <div class="drag-icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <rect x="0" y="8" width="24" height="2" rx="1" fill="#666666"  />
+              <rect x="0" y="14" width="24" height="2" rx="1" fill="#666666" />
+            </svg>
+        </div>
+    </div>
+    <div class="player-stats-modal-content">
+        <svg id="closeModalBtn" class="close" width="800px" height="800px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="m11.25 4.75-6.5 6.5m0-6.5 6.5 6.5"/>
+        </svg>
+        <ul id="modal-players" class="player-stats-list scrollable">
+
+        </ul>
+    </div>
+</div>
+
+
+<script>
+    const leagueSlug = '{{ league.slug }}';
+    const currentMatchday = '{{ current_matchday }}';
+</script>
+<script type="module" src="{% static 'football/js/league.js' %}"></script>
+
+{% endblock %}

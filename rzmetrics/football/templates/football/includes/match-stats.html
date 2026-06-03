@@ -1,0 +1,92 @@
+{% load static %}
+
+<div class="tabs-big-container border-container">
+    <h2 class="match-cont-title">СТАТИСТИКА</h2>
+    <div>ВЛАДЕНИЕ</div>
+    <div class="ring-container">
+        <div class="ring" style="background-image: conic-gradient(#E34D4D 0deg, #E34D4D 241deg, #4C9AFF 241deg, #4C9AFF 360deg);"></div>
+        <span class="ring-text">{{home_stats.possession_percent}}% | {{away_stats.possession_percent}}%</span>
+    </div>
+
+
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.xg}}</span>
+            <h5>Ожидаемые голы (xg)</h5>
+            <span>{{away_stats.xg}}</span>
+        </div>
+        <div class="bar-gradient" id="barXG"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.shots_total}}</span>
+            <h5>Ударов всего</h5>
+            <span>{{away_stats.shots_total}}</span>
+        </div>
+        <div class="bar-gradient" id="barShotsTotal"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.shots_on_target}}</span>
+            <h5>Удары в створ</h5>
+            <span>{{away_stats.shots_on_target}}</span>
+        </div>
+        <div class="bar-gradient" id="barShotsOnTarget"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.passes_total}}</span>
+            <h5>Пасов всего</h5>
+            <span>{{away_stats.passes_total}}</span>
+        </div>
+        <div class="bar-gradient" id="barPassesTotal"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.passes_accurate}}</span>
+            <h5>Точных пасов</h5>
+            <span>{{away_stats.passes_accurate}}</span>
+        </div>
+        <div class="bar-gradient" id="barPassAccuracy"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.corners}}</span>
+            <h5>Угловые</h5>
+            <span>{{away_stats.corners}}</span>
+        </div>
+        <div class="bar-gradient" id="barCorners"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.offsides}}</span>
+            <h5>Оффсайды</h5>
+            <span>{{away_stats.offsides}}</span>
+        </div>
+        <div class="bar-gradient" id="barOffsides"></div>
+    </div>
+    <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.fouls}}</span>
+            <h5>Фолы</h5>
+            <span>{{home_stats.fouls}}</span>
+        </div>
+        <div class="bar-gradient" id="barFouls"></div>
+    </div>
+        <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.yellow_cards}}</span>
+            <h5>Желтые карточки</h5>
+            <span>{{away_stats.yellow_cards}}</span>
+        </div>
+        <div class="bar-gradient" id="barYellowCards"></div>
+    </div>
+        <div class="bar-container">
+        <div class="percent-container">
+            <span>{{home_stats.red_cards}}</span>
+            <h5>Красные карточки</h5>
+            <span>{{away_stats.red_cards}}</span>
+        </div>
+        <div class="bar-gradient" id="barRedCards"></div>
+    </div>
+</div>

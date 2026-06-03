@@ -1,0 +1,30 @@
+{% load static %}
+
+<div class="scrollable">
+        <ul class="games-list">
+            {% if matches %}
+            {% for match in matches %}
+            <li class="games-list-element">
+                <div class="match">
+                    <span class="game-time">{{ match.match_datetime|time:"H:i" }}<br>live</span>
+                    <div class="game-info">
+                        <div class="team-info">
+                            <img class="team-info-logo" src="{% static 'football/'|add:match.home_team.logo_url %}" alt="logo">
+                            <h3>{{ match.home_team.short_name }}</h3>
+                        </div>
+                        <div class="team-info">
+                            <img class="team-info-logo" src="{% static 'football/'|add:match.away_team.logo_url %}" alt="logo">
+                            <h3>{{ match.away_team.short_name }}</h3>
+                        </div>
+                    </div>
+                    <img src="{% static 'football/icons/heart.svg' %}" alt="в избранное" class="heart">
+                </div>
+            </li>
+            {% endfor %}
+            {% else %}
+                <span>ИГРЫ НЕ НАЙДЕНЫ</span>
+            {% endif %}
+        </ul>
+</div>
+
+

@@ -1,0 +1,24 @@
+{% load static %}
+
+<div class="events-container border-container">
+    {% for event in match_events %}
+    {% if event.event_type == "MATCH_ENDED" %}
+    <div class="event match-start">
+        <span> Завершен </span>
+        <img src="{% static 'football/icons/whistle.svg' %}" alt="event">
+    </div>
+    {% else %}
+    <div class="event {% if event.team == match.away_team %}away-event{% endif %}">
+        <span>{{event.minute}}'{% if event.extra_minute %}+{{ event.extra_minute }}{% endif %}</span>
+        <img src="{% static 'football/icons/'|add:event.event_type|add:'.svg' %}" alt="event">
+        <h5>{{ event.player.name }}</h5>
+        <h6>{{ event.related_player.name }}</h6>
+    </div>
+    <div class="vertical-line"></div>
+    {% endif %}
+    {% endfor %}
+    <div class="event match-start">
+        <span> 0' </span>
+        <img src="{% static 'football/icons/whistle.svg' %}" alt="event">
+    </div>
+</div>

@@ -1,0 +1,41 @@
+.favorites-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-family-base);
+    color: var(--color-blue);
+    margin-bottom: 20px;
+}
+
+.favorites-container {
+    width: 1200px;
+    max-height: 850px;
+    display: flex;
+    padding: 30px;
+    border-radius: 30px;
+    background-color: white;
+    justify-content: center;
+}
+
+.favorites-list {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    row-gap: 14px;
+    overflow-y: auto;
+}
+
+.favorites-list::-webkit-scrollbar {
+    width: 12px;
+    background-color: #C4D2EC;
+    border-radius: 7px;
+}
+
+.favorites-list::-webkit-scrollbar-thumb {
+    background: #597599;
+    border-radius: 7px;
+}
+
+.favorites-list::-webkit-scrollbar-thumb:hover {
+    background: #496480;
+}

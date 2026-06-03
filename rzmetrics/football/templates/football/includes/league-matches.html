@@ -1,0 +1,35 @@
+{% load static %}
+
+<div id='games-cont' class="tabs-big-container border-container">
+    <div class="round-dropdown">
+            <button id="roundBtn" class="round-selector">
+                <span id="selectedRound"></span>
+                    <svg viewBox="0 0 24 24" class="choice-icon">
+                        <path d="M12 22c-5.52-.006-9.994-4.48-10-10v-.2C2.11 6.305 6.635 1.928 12.13 2c5.497.074 9.904 4.569 9.868 10.065C21.962 17.562 17.497 22 12 22Zm0-18a8 8 0 1 0 8 8a8.009 8.009 0 0 0-8-8Zm-1.45 13l-1.414-1.415l3.535-3.535l-3.535-3.535L10.55 7.1l4.95 4.95L10.551 17h-.001Z"/>
+                    </svg>
+            </button>
+
+            <div class="round-dropdown-content">
+            {% for matchday in matchdays %}
+            <span class="round-item">{{ matchday }}</span>
+            {% endfor %}
+            </div>
+    </div>
+    <div class="last-results">
+        {% for match in matchday_games %}
+        <a class="league-match medium" href="{% url 'football:match' match.id %}">
+            <div class="team-left">
+                <p class="team-name">{{ match.home_team.short_name }}</p>
+                <img src="{% static 'football/'|add:match.home_team.logo_url %}" alt="team-logo">
+            </div>
+            <div class="score">
+                <p>{{ match.home_score }} : {{ match.away_score }}</p>
+            </div>
+            <div class="team-right">
+                <img src="{% static 'football/'|add:match.away_team.logo_url %}" alt="team-logo">
+                <p class="team-name">{{ match.away_team.short_name }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>

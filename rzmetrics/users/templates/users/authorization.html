@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block extra_css %}
+    <link type="text/css" href="{% static 'users/css/Registration.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<main class="content">
+        <section class="registration-section">
+            <div class="registration border-container">
+
+                <a href="{% url 'users:register' %}" class="register-button filled-button reg-shadow">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+                <button class="border-only-button google-button reg-shadow">
+                    <img src="{% static 'users/images/google.png' %}" alt="Google" class="social-logo">
+                    <span>Войти с помощью Google</span>
+                </button>
+                <div class="registration-title-div">
+                    <hr class="registration-delimetr">
+                    <h1 class="registration-title">АВТОРИЗАЦИЯ</h1>
+                </div>
+
+                <form class="form" method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="non-field-errors">
+                            {% for error in form.non_field_errors %}
+                                <div class="error-message">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                    <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="help-text">{{ field.help_text }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="border-only-button continue-button reg-shadow">ВОЙТИ</button>
+                </form>
+
+                <button class="no-border-button">ЗАБЫЛИ ПАРОЛЬ?</button>
+
+            </div>
+        </section>
+    </main>
+{% endblock %}
