@@ -199,3 +199,65 @@
         transform: translateY(0);
     }
 }
+
+@media (max-width: 900px){
+    .team-name{
+        width:100px;
+        text-wrap: wrap;
+    }
+    .team-left{
+         text-align: end;
+    }
+    .team-right{
+        text-align: start;
+    }
+}
+
+@media (max-width: 700px){
+    .league-match img {
+        width: 30px;
+        height: 30px;
+    }
+    .score{
+        width: 80px;
+    }
+    .score p{
+        font-size: 24px;
+    }
+    .league-match{
+        gap:5px;
+        width: 100%
+    }
+}
+
+@media (max-width: 540px){
+    .score{
+        width: 60px;
+    }
+    .score p{
+        font-size: 18px;
+    }
+    .team-name{
+        width: 70px;
+        font-size: 14px;
+    }
+    .league-match{
+        height: 70px;
+    }
+}
+
+@media (max-width: 440px){
+    .score{
+        width: 40px;
+    }
+    .score p{
+        font-size: 14px;
+    }
+    .league-match img {
+        width: 20px;
+        height: 20px;
+    }
+    .team-left, .team-right {
+        gap: 3px
+    }
+}

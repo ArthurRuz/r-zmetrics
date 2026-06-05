@@ -63,12 +63,6 @@
     align-items: center;
 }
 
-
-.stats-player-info img {
-    height: 70px;
-    margin-left: -15px;
-}
-
 .stats-player-number{
     color: currentColor;
     font-size: 42px;
@@ -76,6 +70,7 @@
     margin: 0 10px 0 12px;
     width:50px;
     text-align: center;
+    line-height: 1;
 }
 
 .stats-player-name {
@@ -128,7 +123,89 @@
 }
 
 .stats-player-team-logo{
+    margin-left: -15px;
     width: 70px;
     height: 70px;
     object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    .stats-player-info{
+        width:170px
+    }
+    .stats-player-number, .player-stats-list-element > span {
+        font-size: 28px;
+        width: 40px;
+    }
+    .stats-player-number{
+        margin: 0 5px 0 6px;
+    }
+    .stats-player-name span {
+        font-size: 15px;
+    }
+    .stats-player-team-logo{
+        width: 40px;
+        height: 40px;
+    }
+    .player-stats-list-element:first-child .player-photo-wrapper > img {
+        height: 100px;
+        top: -30px;
+    }
+    .player-stats-list-element {
+        height:70px;
+    }
+    .player-photo-wrapper {
+        height:70px;
+    }
+    .stats-player-team-logo{
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 500px) {
+    .stats-player-name span {
+        font-size: 12px;
+    }
+    .stats-player-info{
+        width:150px
+    }
+    .stats-player-number{
+        margin: 0 6px 0 0;
+    }
+
+    .stats-player-number, .player-stats-list-element > span {
+        font-size: 19px;
+        width: 30px;
+    }
+    .stats-player-number{
+        margin-right: 0px;
+    }
+    .player-stats-list-element {
+        grid-template-columns: 3fr 100px 1fr;
+        grid-template-rows: 1fr;
+    }
+}
+@media (max-width: 440px) {
+    .player-stats-list-element:first-child .player-photo-wrapper > img {
+        height: 80px;
+        top: -10px;
+    }
+    .stats-player-team-logo{
+        width: 30px;
+        height: 30px;
+    }
+    .stats-player-info{
+        width:130px
+    }
+
+}
+
+@media (max-width: 400px) {
+    .stats-player-number{
+        display: none;
+    }
+    .stats-player-info{
+        width:100px
+    }
 }
