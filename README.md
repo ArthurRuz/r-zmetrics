@@ -41,7 +41,7 @@
     API_FOOTBALL_TOKEN=your_af_token
     ```
    
-5. Скачайте готовую БД со [ссылке](https://disk.yandex.ru/d/hysnOPjGtwh4cw) и поместите в корень проекта.
+5. Скачайте готовую БД со [ссылке](https//disk.yandex.ru/d/hysnOPjGtwh4cw) и поместите в корень проекта.
 6. По той же [ссылке](https://disk.yandex.ru/d/hysnOPjGtwh4cw) вы можете скачать статику 
 (логотипы команд, фото игроков, логитипы лиг). Вставьте в папку `football/static/football`
 

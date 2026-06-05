@@ -74,8 +74,7 @@ def search(request):
             'url': url,
             'type': 'competition',
         })
-    
-    print(results)
+
     return JsonResponse({'results': results})
 
 
