@@ -52,4 +52,5 @@ urlpatterns = [
      path('api/match/<int:match_id>/overview/', views.api_match_overview, name='api_match_overview'),
      path('api/match/<int:match_id>/squad/', views.api_match_squad, name='api_match_squad'),
      path('api/match/<int:match_id>/stats/', views.api_match_stats, name='api_match_stats'),
+     path('api/match/<int:match_id>/table/', views.api_match_table, name='api_match_table'),
 ]

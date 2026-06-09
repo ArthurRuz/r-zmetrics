@@ -1,0 +1,35 @@
+{% load static %}
+
+<h3 class="navigation-title">Популярное</h3>
+<ul class="navigation-list">
+    <li class="navigation-list-el">
+        <a href="{% if user.is_authenticated %}{% url 'football:favorites' %}{% endif %}"></a>
+        <img src="{% static 'football/icons/heart.svg' %}" alt="league-logo"/>
+        <span>Избранное</span>
+    </li>
+    <li class="navigation-list-el">
+        <a href="{% url 'football:league' 'la-liga' %}"></a>
+        <img src="{% static 'football/league_logos/la-liga.svg' %}" alt="league-logo"/>
+        <span>La Liga</span>
+    </li>
+    <li class="navigation-list-el">
+        <a href="{% url 'football:league' 'premier-league' %}"></a>
+        <img src="{% static 'football/league_logos/premier-league.svg' %}" alt="league-logo"/>
+        <span>Premier League</span>
+    </li>
+    <li class="navigation-list-el">
+        <a href="{% url 'football:league' 'bundesliga' %}"></a>
+        <img src="{% static 'football/league_logos/bundesliga.svg' %}" alt="league-logo"/>
+        <span>Bundesliga</span>
+    </li>
+    <li class="navigation-list-el">
+        <a href="{% url 'football:league' 'ligue-1' %}"></a>
+        <img src="{% static 'football/league_logos/ligue-1.svg' %}" alt="league-logo"/>
+        <span>Ligue 1</span>
+    </li>
+    <li class="navigation-list-el">
+        <a href="{% url 'football:league' 'serie-a' %}"></a>
+        <img src="{% static 'football/league_logos/serie-a.svg' %}" alt="league-logo"/>
+        <span>Serie A</span>
+    </li>
+</ul>

@@ -1,0 +1,46 @@
+.recent-games{
+    font-family: var(--font-family-base);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--color-blue)
+}
+
+
+.league-games{
+    display: flex;
+    flex-direction: column;
+    width:100%
+}
+
+.games-list h3{
+    font-size: 18px;
+}
+
+.games-league-name{
+    color: var(--color-gray) !important;
+    font-size: 16px;
+    font-family: var(--font-family-base);
+    font-weight: 500 !important;
+}
+.recent-games-list-element{
+    margin: 10px
+}
+
+.score{
+    position: relative;
+    width: 60px;
+    text-align: center ;
+    display: block;
+}
+
+.score::after{
+  content: " ";
+  background: #bababb;
+  width: 1px;
+  height: 55px;
+  right: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}

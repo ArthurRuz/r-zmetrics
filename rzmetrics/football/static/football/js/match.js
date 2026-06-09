@@ -1,4 +1,25 @@
+function initSwitchers() {
+    const home_switcher = document.getElementById('home-switcher');
+    const away_switcher = document.getElementById('away-switcher');
+    const home_squad = document.getElementById('home-team-squad-container');
+    const away_squad = document.getElementById('away-team-squad-container');
 
+    if (!home_switcher || !away_switcher) return;
+
+    function setActiveTeam(team) {
+        const isHome = team === 'home';
+
+        home_switcher.classList.toggle('active-switcher', isHome);
+        away_switcher.classList.toggle('active-switcher', !isHome);
+
+        document.body.setAttribute('data-active-team', team);
+    }
+
+    home_switcher.addEventListener('click', () => setActiveTeam('home'));
+    away_switcher.addEventListener('click', () => setActiveTeam('away'));
+
+    setActiveTeam('home');
+}
 
 document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -36,11 +57,13 @@ async function loadTab(tabName) {
         for (let template in data){
             let element = document.getElementById(tabName);
             element.insertAdjacentHTML('beforeend', data[template]);
-
         }
 
-        if (tabName == "stats"){
+        if (tabName === "stats"){
             updateAllBars();
+        }
+        if (tabName === "squad"){
+            initSwitchers();
         }
         
 

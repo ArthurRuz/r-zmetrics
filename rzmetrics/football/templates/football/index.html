@@ -5,19 +5,24 @@
 
 {% block extra_css %}
     <link type="text/css" href="{% static 'football/css/Index.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Navigation.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'football/css/Games-list.css' %}" rel="stylesheet"/>
 {% endblock %}
 
 {% block content %}
 
 <section class="home-section">
-    <div class="match-of-the-day border-container">
-        <h1 class="big-h">НЕ ПРОПУСТИТЕ</h1>
-        {% include 'football/includes/match-of-the-day.html' %}
+    <div class="upcoming-games border-container">
+        {% include 'football/includes/navigation.html' %}
     </div>
-    <div class="upcoming-games border-container" id="main-upcoming-games">
-        <h2>БЛИЖАЙАШИЕ МАТЧИ</h2>
-        {% include 'football/includes/games-list.html' with matches=nearest_matches %}
+    <div class="upcoming-games border-container index-recent-games">
+        {% include 'football/includes/games-list.html' %}
     </div>
+<!--    <div class="match-of-the-day border-container">-->
+<!--        <h1 class="big-h">НЕ ПРОПУСТИТЕ</h1>-->
+<!--        {% include 'football/includes/match-of-the-day.html' %}-->
+<!--    </div>-->
+
 </section>
 
 {% endblock %}

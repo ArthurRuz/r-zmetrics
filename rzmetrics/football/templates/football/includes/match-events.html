@@ -12,7 +12,7 @@
         <span>{{event.minute}}'{% if event.extra_minute %}+{{ event.extra_minute }}{% endif %}</span>
         <img src="{% static 'football/icons/'|add:event.event_type|add:'.svg' %}" alt="event">
         <h5>{{ event.player.name }}</h5>
-        <h6>{{ event.related_player.name }}</h6>
+        <h6>{{ event.related_player.name|truncatechars:15 }}</h6>
     </div>
     <div class="vertical-line"></div>
     {% endif %}

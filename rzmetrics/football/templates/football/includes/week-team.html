@@ -5,90 +5,90 @@
     <div class="football-pitch">
         <div class="player-with-score goalkeeper">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.0.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Cr. Ronaldo.
+                {{ week_team.0.name|truncatechars:10 }}
             </div>
         </div>
         <div class="player-with-score left-back">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.1.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                {{ week_team.1.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score left-central-back">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.2.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                {{ week_team.2.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score right-central-back">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.3.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                {{ week_team.3.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score right-back">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.4.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.4.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score left-midfielder">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.5.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.5.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score central-midfielder">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.6.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.6.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score right-midfielder">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.7.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.7.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score left-winger">
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.8.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.8.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score forward">
            <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.9.photo_url %}"/>
             </div>
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.9.name|truncatechars:10  }}
             </div>
         </div>
         <div class="player-with-score right-winger">
             <div class="player-surname">
-                Vini jr.
+                 {{ week_team.10.name|truncatechars:10  }}
             </div>
             <div class="player-round-photo-div">
-                <img class="player-round-photo" src="../Images/the-goat.png">
+                <img src="{% static 'football/'|add:week_team.10.photo_url %}"/>
             </div>
         </div>
 

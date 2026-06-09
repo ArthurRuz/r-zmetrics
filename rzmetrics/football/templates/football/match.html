@@ -11,27 +11,35 @@
 {% block content %}
 <section class="match-section">
     <div class="match-info">
-        <div class="incidents-container">
+        <div class="big-incidents-container">
+             <div class="incidents-container home-incedencts">
             {% for goal in home_goals %}
                 <span>{{goal.player.name}} {{ goal.minute }}'</span>
             {% endfor %}
-        </div>
-        <div class="match-team-container">
-            <img src="{% static 'football/'|add:match.home_team.logo_url %}" alt="awd">
-            <h3>{{ match.home_team.short_name }}</h3>
+            </div>
+            <div class="big-match-team-container">
+                <div class="match-team-container">
+                    <img src="{% static 'football/'|add:match.home_team.logo_url %}" alt="awd">
+                    <h3>{{ match.home_team.short_name }}</h3>
+                </div>
+            </div>
         </div>
         <div class="match-time">
             <h4>{{match.home_score}} - {{match.away_score}}</h4>
-            <span>{{ match.match_datetime }}</span>
+            <span>{{ match.match_datetime|date:"d.m.Y" }} <br> {{ match.match_datetime|date:"H:i" }}  </span>
         </div>
-        <div class="match-team-container">
-            <img src="{% static 'football/'|add:match.away_team.logo_url %}">
-            <h3>{{ match.away_team.short_name }}</h3>
-        </div>
-        <div class="incidents-container">
-            {% for goal in away_goals %}
-                <span>{{goal.player.name}} {{ goal.minute }}'</span>
-            {% endfor %}
+        <div class="big-incidents-container away-incidents">
+            <div class="big-match-team-container away-big-cont">
+                <div class="match-team-container">
+                    <img src="{% static 'football/'|add:match.away_team.logo_url %}">
+                    <h3>{{ match.away_team.short_name }}</h3>
+                </div>
+            </div>
+            <div class="incidents-container">
+                {% for goal in away_goals %}
+                    <span>{{ goal.minute }}' {{goal.player.name}}</span>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
@@ -39,8 +47,8 @@
         <div class="container-nav-buttons">
             <button class="is-current-but nav-button overview-button" data-tab="overview">Обзор</button>
             <button class="nav-button table-button" data-tab="table">Таблица</button>
-            <button class="nav-button table-button" data-tab="stats">Статистика</button>
-            <button class="nav-button table-button" data-tab="squad">Составы</button>
+            <button class="nav-button stats-button" data-tab="stats">Статистика</button>
+            <button class="nav-button squad-button" data-tab="squad">Составы</button>
         </div>
     </div>
 

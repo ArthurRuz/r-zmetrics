@@ -83,15 +83,27 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        nearest_matches = Match.objects.filter(
-            match_datetime__gte=timezone.now()
-        ).select_related(
-            'home_team',     
-            'away_team',               
-        ).order_by('match_datetime')[:20]
+        # nearest_matches = Match.objects.filter(
+        #     match_datetime__gte=timezone.now()
+        # ).select_related(
+        #     'home_team',
+        #     'away_team',
+        # ).order_by('match_datetime')[:20]
 
-        
-        context['nearest_matches'] = nearest_matches
+        leagues = ["la-liga", "serie-a", "ligue-1", "bundesliga", "premier-league"]
+
+        recent_matches = []
+        for league in leagues:
+            recent_matches.append(
+                Match.objects.select_related(
+                    "competition_season__competition", "home_team", "away_team"
+                ).filter(
+                    competition_season__competition__slug=league,
+                    status=Match.Status.FINISHED
+                ).order_by('-match_datetime')[:3]
+            )
+
+        context['league_matches'] = recent_matches
         return context
 
 
@@ -138,13 +150,15 @@ class MatchView(TemplateView):
         match = Match.objects.select_related('home_team', 'away_team').get(id=match_id)
 
         match_events = MatchEvent.objects.filter(match=match_id)
+        print(len(match_events))
 
         match_statistics = MatchTeamStatistic.objects.filter(match=match_id)
         match_home_team_statistics = match_statistics.get(team=match.home_team)
         match_away_team_statistics =  match_statistics.get(team=match.away_team)
 
-        home_goals = match_events.filter(event_type='GOAL', team=match.home_team)
-        away_goals = match_events.filter(event_type='GOAL', team=match.away_team)
+        home_goals = match_events.filter(event_type__in=['GOAL','SCORED_PENALTY','OWN_GOAL'], team=match.home_team)
+        print(len(home_goals))
+        away_goals = match_events.filter(event_type__in=['GOAL', 'SCORED_PENALTY', 'OWN_GOAL'], team=match.away_team)
 
         players = MatchPlayerStatistic.objects.filter(match=match_id)
         home_players = players.filter(team=match.home_team)
@@ -194,6 +208,7 @@ class MatchView(TemplateView):
 def api_match_overview(request, match_id):
     match = Match.objects.select_related('home_team', 'away_team').get(id=match_id)
     match_events = MatchEvent.objects.filter(match=match_id)
+    print(len(match_events))
 
     html = [
         render_to_string('football/includes/match-events.html',
@@ -271,6 +286,67 @@ def api_match_squad(request, match_id):
 
     ]
     return JsonResponse({'html': html})
+
+
+def api_match_table(request, match_id):
+    match = Match.objects.get(id=match_id)
+
+    competition_season = match.competition_season
+
+    standings = (
+        Standing.objects
+        .filter(
+            competition_season=match.competition_season,
+            table_type=Standing.TableType.TOTAL,
+        )
+        .order_by('position')
+    )
+
+    if not standings.exists():
+        return JsonResponse({'error': 'Нет данных для этой лиги'}, status=404)
+
+    team_ids = list(standings.values_list('team_id', flat=True))
+
+    next_matches = {}
+
+    if competition_season.season.is_current:
+        upcoming_matches = (
+            Match.objects
+            .select_related('home_team', 'away_team')
+            .filter(
+                competition_season=competition_season,
+                match_datetime__gte=timezone.now(),
+            )
+            .filter(
+                Q(home_team_id__in=team_ids) |
+                Q(away_team_id__in=team_ids)
+            )
+            .order_by('match_datetime')
+        )
+
+        for match in upcoming_matches:
+            if match.home_team_id not in next_matches:
+                next_matches[match.home_team_id] = match
+
+            if match.away_team_id not in next_matches:
+                next_matches[match.away_team_id] = match
+
+            if len(next_matches) == len(team_ids):
+                break
+
+    context = {
+        'standings': standings,
+        'next_matches': next_matches,
+    }
+
+    html = render_to_string(
+        'football/includes/league-table.html',
+        context=context,
+        request=request,
+    )
+
+    return JsonResponse({'html': [html]})
+
 
 
 class ClubView(TemplateView):
@@ -400,13 +476,20 @@ def api_league_overview(request, league_slug,  season):
     if not standings and not upcoming_games:
         return JsonResponse({'error': 'Нет данных для этой лиги'}, status=404)
 
+    path_to_best_players = f'rzmetrics/football/static/football/best-{league_slug}.txt'
+    best_players = []
+    with open(path_to_best_players, 'r') as f:
+        for player in f:
+            best_players.append(Player.objects.get(slug=player.strip()))
+
     html = [
         render_to_string('football/includes/upcoming-games.html',
                          {'matches': upcoming_games}),
 
-        render_to_string('football/includes/week-team.html', {'week_team': week_team}),
+        render_to_string('football/includes/week-team.html', {'week_team': best_players}),
 
-        render_to_string('football/includes/league-table.html', {'standings': standings}),
+        render_to_string('football/includes/league-table.html', {'standings': standings,
+                                                                 'next_matches': {}}),
     ]
     return JsonResponse({'html': html})
 
@@ -433,8 +516,17 @@ def api_league_table(request, league_slug, season):
     if not standings:
         return JsonResponse({'error': 'Нет данных для этой лиги'}, status=404)
 
+    team_ids = list(standings.values_list('team_id', flat=True))
+    next_matches = {}
+
     html = [
-        render_to_string('football/includes/league-table.html', {'standings': standings}),
+        render_to_string(
+            'football/includes/league-table.html',
+    {
+                'standings': standings,
+                'next_matches': next_matches
+            }
+        ),
     ]
 
     return JsonResponse({'html': html})
@@ -827,6 +919,7 @@ def api_match_scores(request):
     }
 
     return JsonResponse({'matches': matches})
+
 
 
 def api_club_player_stats(request, club_slug, league_slug, season_name='2025-2026', category=None):

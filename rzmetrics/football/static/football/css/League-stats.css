@@ -129,6 +129,7 @@
     object-fit: contain;
 }
 
+
 @media (max-width: 900px) {
     .stats-player-info{
         width:170px

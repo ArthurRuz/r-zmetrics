@@ -1,5 +1,6 @@
 {% load static %}
 {% load split_filter %}
+{% load dict_filters %}
 
 <div id="top-5" class="tabs-big-container border-container">
     <div class="ligue-table">
@@ -42,7 +43,21 @@
                 {% endfor %}
             {% endwith %}
         </ul>
-        <img class="info-to-hide" src="../Images/manchester_city.png">
+        {% with match=next_matches|get_item:standing.team_id %}
+            {% if match %}
+                {% if match.home_team.id == standing.team.id %}
+                    <div class="club-standings-next-match info-to-hide">
+                        <img src="{% static 'football/'|add:match.away_team.logo_url %}">
+                    </div>
+                {% else %}
+                    <div class="club-standings-next-match info-to-hide">
+                        <img src="{% static 'football/'|add:match.home_team.logo_url %}">
+                    </div>
+                {% endif %}
+            {% else %}
+                <span class="info-to-hide">—</span>
+            {% endif %}
+        {% endwith %}
         {% endfor %}
 
     </div>

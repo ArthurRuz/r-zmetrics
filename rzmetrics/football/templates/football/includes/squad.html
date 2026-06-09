@@ -1,12 +1,12 @@
 {% load static %}
-<div class="tabs-big-container border-container">
+<div class="tabs-big-container border-container squad-big-container">
     <div class="switcher">
         <ul class="switcher-list">
-            <li class="switcher-element active-switcher">
-                <img src='/static/football/images/manchester_city.png'>
+            <li id="home-switcher" class="switcher-element active-switcher">
+                <img src="{% static 'football/'|add:match.home_team.logo_url %}" alt="team-logo">
             </li>
-            <li class="switcher-element">
-                <img src='/static/football/images/manchester_city.png'>
+            <li id="away-switcher" class="switcher-element">
+                <img src="{% static 'football/'|add:match.away_team.logo_url %}" alt="team-logo">
             </li>
         </ul>
     </div>

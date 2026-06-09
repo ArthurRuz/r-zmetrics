@@ -2,13 +2,13 @@
 
 <div class="tabs-big-container border-container">
     <h2 class="match-cont-title">СТАТИСТИКА</h2>
-    <div>ВЛАДЕНИЕ</div>
+    <h5 class="possesion">Владние</h5>
     <div class="ring-container">
         <div class="ring" style="background-image: conic-gradient(#E34D4D 0deg, #E34D4D 241deg, #4C9AFF 241deg, #4C9AFF 360deg);"></div>
-        <span class="ring-text">{{home_stats.possession_percent}}% | {{away_stats.possession_percent}}%</span>
+        <span class="ring-text">
+            {{ home_stats.possession_percent|floatformat:0 }}% | {{ away_stats.possession_percent|floatformat:0 }}%
+        </span>
     </div>
-
-
     <div class="bar-container">
         <div class="percent-container">
             <span>{{home_stats.xg}}</span>
@@ -69,7 +69,7 @@
         <div class="percent-container">
             <span>{{home_stats.fouls}}</span>
             <h5>Фолы</h5>
-            <span>{{home_stats.fouls}}</span>
+            <span>{{away_stats.fouls}}</span>
         </div>
         <div class="bar-gradient" id="barFouls"></div>
     </div>
