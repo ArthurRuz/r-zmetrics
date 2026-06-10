@@ -444,6 +444,24 @@ class FavoritesView(LoginRequiredMixin, TemplateView):
             .order_by('-match_datetime')
         )
 
+        if len(favorite_events) == 0:
+            last_match = Match.objects.select_related('home_team', 'away_team').filter(
+                    Q(home_team__in=favorite_teams) | Q(away_team__in=favorite_teams)
+                ).order_by('-match_datetime').first()
+
+
+            favorite_events = (
+                Match.objects
+                .select_related('home_team', 'away_team', 'competition_season__competition')
+                .filter(
+                    match_datetime__date__gte=(last_match.match_datetime - timedelta(days=14)),
+                )
+                .filter(
+                    Q(home_team__in=favorite_teams) | Q(away_team__in=favorite_teams)
+                )
+                .order_by('-match_datetime')
+            )
+
         favorite_team_ids = list(favorite_teams.values_list('id', flat=True))
 
         context['matches'] = favorite_events

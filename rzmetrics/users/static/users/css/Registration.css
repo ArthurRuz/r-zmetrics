@@ -125,12 +125,6 @@ body {
     font-weight: 700;
 }
 
-.google-button{
-    width: 75%;
-    height: 70px;
-    margin-bottom: 10px;
-}
-
 .border-only-button span{
     color: inherit;
     font-weight: 700;
@@ -149,11 +143,12 @@ body {
     border-style: solid;
     border-width: 1px;
     border-radius: var(--small-border-radius);
-    color: #A4A4A4;
+    color: var(--color-blue);
     border-color: #A4A4A4;
+    padding-left: 30px;
 }
 
-.auth-input::-webkit-input-placeholder {
+/*.auth-input::-webkit-input-placeholder {
     padding-left: 30px;
 }
 
@@ -171,7 +166,7 @@ body {
 
 .auth-input::placeholder {
     padding-left: 30px;
-}
+}*/
 
 
 .filled-button{
