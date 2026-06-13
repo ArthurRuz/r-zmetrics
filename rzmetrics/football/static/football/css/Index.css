@@ -503,10 +503,9 @@ h3{
   justify-self: center;
 }
 
-.player-with-score::after{
+.player-with-score-club{
   position: absolute;
   content: "";
-  background-image: url(../Images/manchester_city.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

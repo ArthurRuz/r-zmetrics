@@ -489,8 +489,6 @@ def api_league_overview(request, league_slug,  season):
 
     standings = Standing.objects.filter(competition_season=competition_season, table_type=Standing.TableType.TOTAL)[:5]
 
-    week_team = {}
-
     if not standings and not upcoming_games:
         return JsonResponse({'error': 'Нет данных для этой лиги'}, status=404)
 
@@ -498,7 +496,7 @@ def api_league_overview(request, league_slug,  season):
     best_players = []
     with open(path_to_best_players, 'r') as f:
         for player in f:
-            best_players.append(Player.objects.get(slug=player.strip()))
+            best_players.append(Player.objects.prefetch_related('current_team').get(slug=player.strip()))
 
     html = [
         render_to_string('football/includes/upcoming-games.html',
