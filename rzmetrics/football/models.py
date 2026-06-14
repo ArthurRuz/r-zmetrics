@@ -11,10 +11,18 @@ class Country(models.Model):
     alpha3 = models.CharField(max_length=10)
     flag_url = models.URLField(max_length=500, blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'страна'
+        verbose_name_plural = 'страны'
+
 
 class Season(models.Model):
     name = models.CharField(max_length=20)
     is_current = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'сезон'
+        verbose_name_plural = 'сезоны'
 
 
 class Competition(models.Model):
@@ -25,6 +33,10 @@ class Competition(models.Model):
     competition_type = models.CharField(max_length=30)
     logo_url = models.URLField(max_length=500, blank=True, null=True)
     slug = models.SlugField(max_length=255, db_index=True)
+
+    class Meta:
+        verbose_name = 'соревнование'
+        verbose_name_plural = 'соревнования'
 
 
 class CompetitionSeason(models.Model):
@@ -38,6 +50,10 @@ class CompetitionSeason(models.Model):
     current_stage = models.ForeignKey('CompetitionStage', on_delete=models.SET_NULL, null=True, blank=True)
     updated_at = models.DateTimeField(default=datetime.now, blank=True)
 
+    class Meta:
+        verbose_name = 'сезон соревнования'
+        verbose_name_plural = 'сезоны соревнований'
+
 
 class CompetitionStage(models.Model):
     class StageType(models.TextChoices):
@@ -48,12 +64,20 @@ class CompetitionStage(models.Model):
     name = models.CharField(max_length=150)
     stage_type = models.CharField(choices=StageType.choices, default=StageType.REGULAR)
 
+    class Meta:
+        verbose_name = 'этап соревнования'
+        verbose_name_plural = 'этапы соревнований'
+
 
 class Stadium(models.Model):
     name = models.CharField(max_length=150)
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     capacity = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'стадион'
+        verbose_name_plural = 'стадионы'
 
 
 class Team(models.Model):
@@ -66,6 +90,10 @@ class Team(models.Model):
     logo_url = models.URLField(max_length=500, blank=True, null=True)
     stadium = models.ForeignKey('Stadium', on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=150)
+
+    class Meta:
+        verbose_name = 'команда'
+        verbose_name_plural = 'команды'
 
 
 class Position(models.TextChoices):
@@ -96,6 +124,10 @@ class Player(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    class Meta:
+        verbose_name = 'игрок'
+        verbose_name_plural = 'игроки'
+
 
 class HeadCoach(models.Model):
     name = models.CharField(max_length=255)
@@ -104,6 +136,10 @@ class HeadCoach(models.Model):
     normalized_name = models.CharField(max_length=255, blank=True, null=True)
     current_team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, blank=True)
     photo_url = models.URLField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'главный тренер'
+        verbose_name_plural = 'главные тренеры'
 
 
 class Standing(models.Model):
@@ -134,6 +170,9 @@ class Standing(models.Model):
                 name='unique_standing_competition_season_team_type'
             )
         ]
+
+        verbose_name = 'положение команды'
+        verbose_name_plural = 'положения команд'
 
 
 class PlayerTeamSeason(models.Model):
@@ -166,6 +205,9 @@ class PlayerTeamSeason(models.Model):
                 name='unique_player_team_season_player_team_season'
             )
         ]
+
+        verbose_name = 'профиль игрока в сезоне'
+        verbose_name_plural = 'профили игроков в сезонах'
 
 
 class Match(models.Model):
@@ -219,6 +261,10 @@ class Match(models.Model):
         end = start + timedelta(hours=1, minutes=55)
         return start <= now <= end
 
+    class Meta:
+        verbose_name = 'матч'
+        verbose_name_plural = 'матчи'
+
 
 class MatchEvent(models.Model):
     class EventType(models.TextChoices):
@@ -244,6 +290,10 @@ class MatchEvent(models.Model):
     event_type = models.CharField(choices=EventType.choices, default=EventType.GOAL, max_length=50)
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name = 'событие матча'
+        verbose_name_plural = 'события матчей'
+
 
 class MatchTeamStatistic(models.Model):
     match = models.ForeignKey('Match', on_delete=models.CASCADE)
@@ -268,6 +318,9 @@ class MatchTeamStatistic(models.Model):
                 name='unique_match_team_statistic_match_team'
             )
         ]
+
+        verbose_name = 'статистика команды в матче'
+        verbose_name_plural = 'статистика команд в матчах'
 
 
 class MatchPlayerStatistic(models.Model):
@@ -305,6 +358,9 @@ class MatchPlayerStatistic(models.Model):
             )
         ]
 
+        verbose_name = 'статистика игрока в матче'
+        verbose_name_plural = 'статистика игроков в матчах'
+
 
 class LiveMatchTracking(models.Model):
     class Status(models.TextChoices):
@@ -332,5 +388,5 @@ class LiveMatchTracking(models.Model):
     error_message = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = "Live tracking"
-        verbose_name_plural = "Live tracking"
+        verbose_name = "live tracking"
+        verbose_name_plural = "live tracking"
