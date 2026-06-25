@@ -1,11 +1,123 @@
 from django.contrib import admin
-
-from django.contrib import admin
+from django import forms
+from django.core.management import call_command
+from django.contrib import messages
 from .models import (
     Country, Season, Competition, CompetitionSeason, CompetitionStage,
     Stadium, Team, Player, HeadCoach, Standing, PlayerTeamSeason,
     Match, MatchEvent, MatchTeamStatistic, MatchPlayerStatistic, LiveMatchTracking
 )
+
+@admin.action(description='🔄 Обновить статистику выбранных матчей')
+def action_update_single_matches(modeladmin, request, queryset):
+    """
+    Вызывает команду 'update_match' для каждого выбранного матча по его ID.
+    Команда: update_match.py
+    """
+    success_count = 0
+    error_count = 0
+
+    for match in queryset:
+        try:
+            # Вызываем команду: manage.py update_match <match_id>
+            call_command('update_match', match.id)
+            success_count += 1
+        except Exception as e:
+            error_count += 1
+            modeladmin.message_user(
+                request,
+                f"Ошибка при обновлении матча #{match.id} ({match}): {e}",
+                messages.ERROR
+            )
+
+    if success_count:
+        modeladmin.message_user(
+            request,
+            f"Успешно обновлено матчей: {success_count}.",
+            messages.SUCCESS
+        )
+
+
+@admin.action(description='🚀 Запустить массовое обновление ВСЕХ матчей и лиг')
+def action_run_mass_matches_update(modeladmin, request, queryset):
+    """
+    Вызывает команду полного обновления матчей по пяти топ-лигам.
+    Команда: update_matches.py (Аргументов не требует)
+    """
+    try:
+        modeladmin.message_user(request, "Процесс обновления матчей запущен...", messages.WARNING)
+        call_command('update_matches')
+        modeladmin.message_user(request, "Все матчи и статистика успешно обновлены!", messages.SUCCESS)
+    except Exception as e:
+        modeladmin.message_user(request, f"Ошибка массового обновления: {e}", messages.ERROR)
+
+# ==========================================
+# 2. ACTIONS ДЛЯ МОДЕЛИ СОРЕВНОВАНИЙ (Competition)
+# ==========================================
+
+@admin.action(description='📊 Обновить сезонную статистику игроков (PlayerTeamSeason)')
+def action_update_player_seasons(modeladmin, request, queryset):
+    """
+    Вызывает команду для обновления статы игроков по коду выбранной лиги.
+    Команда: update_player_team_seasons.py --competition-code=<CODE>
+    """
+    for comp in queryset:
+        if not comp.competition_code:
+            modeladmin.message_user(
+                request,
+                f"У соревнования {comp.name} отсутствует код (competition_code)!",
+                messages.WARNING
+            )
+            continue
+
+        try:
+            # manage.py update_player_team_seasons --competition-code=PL --season=2025-2026
+            call_command('update_player_team_seasons', competition_code=comp.competition_code, season='2025-2026')
+            modeladmin.message_user(
+                request,
+                f"Статистика игроков для лиги {comp.name} успешно пересчитана.",
+                messages.SUCCESS
+            )
+        except Exception as e:
+            modeladmin.message_user(
+                request,
+                f"Ошибка обновления статистики игроков для {comp.name}: {e}",
+                messages.ERROR
+            )
+
+
+@admin.action(description='📈 Спарсить актуальную турнирную таблицу')
+def action_parse_standings(modeladmin, request, queryset):
+    """
+    Вызывает парсер таблицы для выбранных лиг.
+    Команда: parse_current_standings.py <competition_code>
+    """
+    for comp in queryset:
+        if not comp.competition_code:
+            continue
+        try:
+            # manage.py parse_current_standings PL --season-name=2025-2026
+            call_command('parse_current_standings', comp.competition_code, season_name='2025-2026')
+            modeladmin.message_user(
+                request,
+                f"Турнирная таблица {comp.name} успешно обновлена.",
+                messages.SUCCESS
+            )
+        except Exception as e:
+            modeladmin.message_user(request, f"Ошибка парсинга таблицы {comp.name}: {e}", messages.ERROR)
+
+
+@admin.action(description='🌐 Обновить таблицы ВСЕХ лиг сразу')
+def action_update_all_standings(modeladmin, request, queryset):
+    """
+    Вызывает команду общего обновления таблиц.
+    Команда: update_current_standings.py
+    """
+    try:
+        call_command('update_current_standings')
+        modeladmin.message_user(request, "Все турнирные таблицы успешно обновлены!", messages.SUCCESS)
+    except Exception as e:
+        modeladmin.message_user(request, f"Ошибка обновления всех таблиц: {e}", messages.ERROR)
 
 # --- ГЕОГРАФИЯ И СЕЗОНЫ ---
 
@@ -30,6 +142,11 @@ class CompetitionAdmin(admin.ModelAdmin):
     list_filter = ('competition_type', 'country')
     search_fields = ('name', 'name_ru', 'competition_code')
     prepopulated_fields = {'slug': ('name',)}
+    actions = [
+        action_update_player_seasons,
+        action_parse_standings,
+        action_update_all_standings
+    ]
 
 
 @admin.register(CompetitionSeason)
@@ -88,8 +205,21 @@ class StandingAdmin(admin.ModelAdmin):
     search_fields = ('team__name', 'competition_season__competition__name')
 
 
+class PlayerTeamSeasonForm(forms.ModelForm):
+    class Meta:
+        model = PlayerTeamSeason
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.required = False
+
+
 @admin.register(PlayerTeamSeason)
 class PlayerTeamSeasonAdmin(admin.ModelAdmin):
+    form = PlayerTeamSeasonForm
+
     list_display = ('id', 'player', 'team', 'competition_season', 'shirt_number', 'matches', 'goals', 'assists')
     list_filter = ('competition_season', 'team')
     search_fields = ('player__name', 'team__name')
@@ -115,6 +245,7 @@ class MatchAdmin(admin.ModelAdmin):
     search_fields = ('home_team__name', 'away_team__name', 'stadium__name')
     date_hierarchy = 'match_datetime'
     inlines = [MatchTeamStatisticInline, MatchEventInline]
+    actions = [action_update_single_matches, action_run_mass_matches_update]
 
 
 @admin.register(MatchEvent)
@@ -145,3 +276,4 @@ class LiveMatchTrackingAdmin(admin.ModelAdmin):
     list_display = ('id', 'match', 'status', 'started_at', 'finished_at', 'last_update_at')
     list_filter = ('status',)
     search_fields = ('match__home_team__name', 'match__away_team__name', 'error_message')
+

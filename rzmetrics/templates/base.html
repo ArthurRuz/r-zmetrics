@@ -91,6 +91,7 @@
                     <a class="footer-link">Команды</a>
                     <a class="footer-link">Матчи</a>
                     <a class="footer-link">Лиги</a>
+                    {% if user.is_superuser %}<a class="footer-link" href="/admin/">Админ-панель</a>{% endif %}
                 </div>
             </div>
             {% if user.is_authenticated %}
